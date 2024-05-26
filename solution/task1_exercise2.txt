@@ -1,4 +1,4 @@
-Exercise 1: Process Management
+Exercise 2: Process Management
 
 1. Display a list of currently running processes.
 Ans: top
