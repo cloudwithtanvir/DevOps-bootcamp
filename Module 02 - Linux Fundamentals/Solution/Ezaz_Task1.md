@@ -40,8 +40,7 @@
    ```
    sudo vi test.log
    ```
-
-Screenshot:
+   Screenshot:
 
 ![Screenshot of Solution 1](https://i.ibb.co/JtP3x8y/Screenshot-2024-05-26-170509.png)
 
@@ -59,15 +58,11 @@ Screenshot:
    pgrep nginx
    ```
 
-   This command will list the PIDs of all running nginx processes.
-
 3. **Terminate the nginx process using its PID:**
 
    ```
    sudo pkill nginx
    ```
-
-   This command will terminate all processes named nginx.
 
 4. **Start the nginx process again:**
    ```
@@ -75,4 +70,42 @@ Screenshot:
    ```
    Screenshot:
 
-![Screenshot of Solution 2](https://i.ibb.co/BKhvJVH/process.png)
+![Screenshot of Solution 2](https://i.ibb.co/xs3Sp87/process.png)
+
+# Solution 3: Networking
+
+1.  **To Check Network configuration:**
+
+    ```
+    ifconfig
+    ```
+
+2.  **To test connectivity:**
+    ```
+    ping 8.8.8.8
+    ```
+    Screenshot:
+
+![Screenshot of Solution 3](https://i.ibb.co/zNXQXyG/network-1.png)
+
+# Solution 4: Package Management
+
+1.  **To Update package list of system:**
+
+    ```
+    sudo apt update
+    ```
+
+2.  **To Install htop package:**
+
+    ```
+    sudo apt install htop
+    ```
+
+3.  **To Uninstall htop package:**
+    ```
+    sudo apt remove htop
+    ```
+    Screenshot:
+
+![Screenshot of Solution 4](https://i.ibb.co/PCDmXGP/package-management.png)
