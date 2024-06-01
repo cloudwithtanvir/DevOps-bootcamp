@@ -1,57 +1,30 @@
-### Task Description:
-You are tasked with containerizing a simple Node.js web application using Docker. The application should serve a static HTML page with some basic CSS styling.
+**Task: Dockerize an Application**
 
-### Requirements:
-1. Create a simple Node.js web application that serves a static HTML page.
-2. The HTML page should contain a welcome message and some basic CSS styling.
-3. Use Docker to containerize the Node.js application.
-4. Ensure the Docker container exposes the application on port 8080.
-5. Write a README.md file with instructions on how to build and run the Docker container.
+**Objective:** Dockerize an application based on your preferred stack to demonstrate containerization and deployment using Docker.
 
-### Deliverables:
-1. Node.js application code (`app/index.js`, `app/index.html`, `app/style.css`).
-2. Dockerfile.
-3. README.md file with instructions.
+**Steps:**
 
-### Evaluation Criteria:
-1. Completion of the task based on requirements.
-2. Clarity and correctness of instructions in the README.md file.
-3. Proper usage of Docker best practices.
+1. **Choose Your Stack:** Select the programming language, framework, and any additional tools or libraries you prefer for your application.
 
-### Bonus Points (Optional):
-- Use a multi-stage Docker build to optimize the Docker image size.
-- Include screenshots of the application running in the README.md file.
+2. **Develop Your Application:** Create a simple application using your chosen stack. It could be a web application, a REST API, or any other type of application you're comfortable with.
 
-### Submission:
-- Submit a zip file containing all necessary files (Node.js application code, Dockerfile, and README.md) or a link to a GitHub repository with the code.
+3. **Write a Dockerfile:** Create a Dockerfile to define the environment and dependencies needed to run your application within a Docker container. Ensure that you include all necessary configurations and instructions for building the image.
 
-### Example README.md File:
-```
-# Docker Beginner Demo Task
+4. **Build the Docker Image:** Use the Dockerfile to build a Docker image for your application. Test the image locally to ensure it runs as expected within a container.
 
-This repository contains a simple Node.js web application that serves a static HTML page with some basic CSS styling, containerized using Docker.
+5. **Containerize Your Application:** Run your application as a Docker container using the Docker image you built. Verify that the containerized application behaves as expected and can be accessed from a web browser or any other client if applicable.
 
-### Prerequisites:
-- Docker installed on your machine
+6. **Optimize Docker Configuration (Optional):** Fine-tune your Docker configuration for better performance, security, or scalability if needed. This could involve adjusting container resource limits, optimizing Dockerfile instructions, or implementing best practices for Docker deployment.
 
-### How to Build and Run the Docker Container:
-1. Clone this repository to your local machine.
-2. Navigate to the project directory.
-3. Build the Docker image using the following command:
-    ```
-    docker build -t my-node-app .
-    ```
-4. Once the image is built, run the Docker container with the following command:
-    ```
-    docker run -d -p 8080:8080 my-node-app
-    ```
-5. Access the application by opening a web browser and navigating to http://localhost:8080.
+7. **Push to a Git Repository:** Once you're satisfied with your Dockerized application, push the Dockerfile and any other necessary files to a Git repository of your choice. Make sure to include clear instructions for building and running the Docker image in the repository's README file.
 
-### Screenshots:
-[Insert screenshots here if available]
+8. **Share the Repository Link:** Share the link to your Git repository containing the Dockerized application under the "solution" folder in a Markdown (.md) file named "repo_link.md".
 
-### Additional Notes:
-- The Dockerfile uses a multi-stage build to optimize the Docker image size.
-```
+**Deliverables:**
 
-This task provides a hands-on experience with Docker basics while also integrating it with a simple Node.js application. It's suitable for beginners and offers opportunities for further exploration and optimization.
+- Dockerfile: Defines the Docker image for your application.
+- Source Code: Includes all the files and code necessary to build and run your application.
+- README.md: Provides instructions for building and running the Docker image, as well as any other relevant information about your application.
+- repo_link.md: Contains the link to your Git repository under the "solution" folder.
+
+Feel free to reach out if you have any questions or need further assistance!
