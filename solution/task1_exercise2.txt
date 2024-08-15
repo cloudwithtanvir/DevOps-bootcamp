@@ -1,0 +1,18 @@
+Exercise 2: Process Management
+
+1. Display a list of currently running processes.
+Ans: top
+Screenshot -> Exercise2_P1.png
+
+2. Identify the PID of the process named nginx (assuming it's installed and running).
+Ans: pgrep nginx
+
+
+3. Terminate the nginx process using its PID.
+Ans: sudo kill 1146
+
+
+4. Start the nginx process again.
+Ans: sudo systemctl start nginx
+Screenshot -> Exercise2_P2.png
+
