@@ -233,19 +233,20 @@ Docker can be installed on various operating systems. Below are links to detaile
     
     ```
     
-11. **docker-compose**: Define and run multi-container Docker applications using a YAML file.
+11. **docker compose**: Define and run multi-container Docker applications using a `compose.yaml` file. Compose is now built into the Docker CLI as `docker compose` (with a space); the old standalone `docker-compose` (v1) is deprecated.
     
     ```bash
-    docker-compose up
+    docker compose up -d     # start all services in the background
+    docker compose ps        # list running services
+    docker compose logs -f   # follow logs
+    docker compose down      # stop and remove the services
     
     ```
     
 
 ---
 
-### 
-
-1. Building Images with Dockerfile: A Practical Guide
+### 8. Building Images with Dockerfile: A Practical Guide
 
 Refer to the [Guide to Containers with Docker](https://github.com/cloudwithtanvir/Guide-to-Containers-with-Docker) for detailed steps on creating Dockerfiles and building images.
 

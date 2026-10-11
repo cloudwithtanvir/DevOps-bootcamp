@@ -87,51 +87,59 @@
 
    **Example Dockerfile for Node.js**:
    ```dockerfile
-   # Use the official Node.js image
-   FROM node:14
+   # Use a current LTS Node.js image (small Alpine variant)
+   FROM node:24-alpine
 
    # Create and change to the app directory
    WORKDIR /usr/src/app
 
-   # Copy application dependency manifests to the container image
+   # Copy dependency manifests first so this layer is cached
    COPY package*.json ./
 
-   # Install dependencies
-   RUN npm install
+   # Install only production dependencies, exactly as locked
+   RUN npm ci --omit=dev
 
    # Copy the local code to the container image
    COPY . .
+
+   # Run as the built-in non-root user instead of root
+   USER node
 
    # Expose the port the app runs on
    EXPOSE 3000
 
    # Run the web service on container startup
-   CMD [ "npm", "start" ]
+   CMD [ "node", "index.js" ]
    ```
 
    **Example Dockerfile for Django**:
    ```dockerfile
-   # Use the official Python image
-   FROM python:3.9
+   # Use a current, slim Python image
+   FROM python:3.13-slim
 
-   # Set environment variables
-   ENV PYTHONDONTWRITEBYTECODE 1
-   ENV PYTHONUNBUFFERED 1
+   # Set environment variables (KEY=value form; the old "KEY value" form is deprecated)
+   ENV PYTHONDONTWRITEBYTECODE=1 \
+       PYTHONUNBUFFERED=1
 
    # Create and change to the app directory
    WORKDIR /usr/src/app
 
-   # Install dependencies
+   # Install dependencies (no pip cache keeps the image small)
    COPY requirements.txt .
-   RUN pip install -r requirements.txt
+   RUN pip install --no-cache-dir -r requirements.txt
 
    # Copy the local code to the container image
    COPY . .
 
+   # Create and switch to a non-root user
+   RUN useradd --create-home appuser
+   USER appuser
+
    # Expose the port the app runs on
    EXPOSE 8000
 
-   # Run the web service on container startup
+   # Development server for this task; in production use gunicorn, e.g.
+   # CMD ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000"]
    CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
    ```
 
@@ -142,6 +150,8 @@
    ```plaintext
    node_modules
    npm-debug.log
+   .git
+   .env
    ```
 
    **Example `.dockerignore` for Django**:
@@ -236,19 +246,22 @@ To provide a complete example, here's a summary of the steps with a Node.js appl
 
 4. **Create Dockerfile**:
    ```dockerfile
-   FROM node:14
+   FROM node:24-alpine
    WORKDIR /usr/src/app
    COPY package*.json ./
-   RUN npm install
+   RUN npm ci --omit=dev
    COPY . .
+   USER node
    EXPOSE 3000
-   CMD [ "npm", "start" ]
+   CMD [ "node", "index.js" ]
    ```
 
 5. **Create `.dockerignore`**:
    ```plaintext
    node_modules
    npm-debug.log
+   .git
+   .env
    ```
 
 6. **Create `README.md`**:
