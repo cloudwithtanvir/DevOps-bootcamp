@@ -85,93 +85,116 @@ This section provides a step-by-step guide to creating a GitHub Actions workflow
 
 ### Prerequisites
 
-- A GitHub repository.
-- A Docker Hub account.
-- Docker installed on your local machine.
-- A `docker-compose.yml` file to define your Docker services.
+- A GitHub repository with a `Dockerfile` (for example, the app you dockerized in the Docker module).
+- A Docker Hub account and a repository on Docker Hub (e.g., `your-username/my-app`).
+- A Docker Hub **access token**: Docker Hub > Account settings > Personal access tokens > Generate (Read & Write). Never use your Docker Hub password in CI.
 
-### Step 1: Create a Docker Compose File
+> Updated for the 2026 batch: the workflow now uses `docker/build-push-action` (the standard way to build and push in GitHub Actions) instead of installing the deprecated `docker-compose` v1 on the runner, and all actions are on current major versions.
 
-First, define your Docker services in a `docker-compose.yml` file. Here’s an example:
+### Step 1: (Optional) Compose File for Local Development
+
+Docker Compose is great for running the app locally, but CI only needs the `Dockerfile`. If you use Compose locally, name the file `compose.yaml`. The top-level `version:` key is obsolete and can be removed:
 
 ```yaml
-version: '3.8'
-
 services:
   server:
     build:
       context: .
     ports:
-      - 8000:8000
+      - "8000:8000"
 ```
 
-This file defines a service named `server` that builds its image from the current directory and maps port 8000 on the host to port 8000 in the container.
+Run it locally with `docker compose up --build` (note: `docker compose` with a space).
 
-### Step 2: Create a GitHub Actions Workflow
+### Step 2: Configure Secrets
 
-Create a new directory called `.github/workflows` in your repository and add a YAML file (e.g., `docker-compose-publish.yml`) with the following content:
+Add these to your repository under **Settings > Secrets and variables > Actions**:
+
+1. **Variable** `DOCKERHUB_USERNAME`: your Docker Hub username (not secret, so a variable).
+2. **Secret** `DOCKERHUB_TOKEN`: the access token from the prerequisites.
+
+### Step 3: Create a GitHub Actions Workflow
+
+Create `.github/workflows/docker-publish.yml`:
 
 ```yaml
-name: Build and Push Docker Image using Docker Compose
+name: Build and Push Docker Image
 
 on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'          # also publish version tags like v1.0.0
+  pull_request:       # build (but don't push) on pull requests to catch errors early
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Set up Docker Compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+      - name: Generate image tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKERHUB_USERNAME }}/my-app
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
+            type=semver,pattern={{version}}
 
-    - name: Build Docker image
-      run: docker-compose build
-
-    - name: Tag Docker image
-      run: docker tag server:latest ${{ secrets.DOCKER_HUB_USERNAME }}/my-private-repo:latest
-
-    - name: Push Docker image
-      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/my-private-repo:latest
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 ```
 
-### Step 3: Configure Secrets
+Replace `my-app` with your Docker Hub repository name.
 
-To securely store your Docker Hub credentials, add the following secrets to your GitHub repository:
+> Action versions: these were current majors at the time of writing. Check each action's GitHub page for a newer major version before the session.
 
-1. `DOCKER_HUB_USERNAME`: Your Docker Hub username.
-2. `DOCKER_HUB_ACCESS_TOKEN`: Your Docker Hub access token.
+### Step 4: Push Changes and Trigger the Workflow
 
-To add secrets, navigate to your repository on GitHub, go to `Settings` > `Secrets and variables` > `Actions`, and click `New repository secret`.
+Push to `main`. The workflow will:
 
-### Step 4: Push Changes and Trigger Workflow
+1. **Check out the code** with `actions/checkout`.
+2. **Set up Docker Buildx**, the modern Docker builder with caching.
+3. **Log in to Docker Hub** using the token (skipped on pull requests).
+4. **Generate tags**: `latest` for the default branch, a short commit SHA for every build (so you can always trace an image back to its commit), and a version number for `v*` tags.
+5. **Build and push** the image, reusing cached layers from previous runs to make builds faster.
 
-Push your changes to the `main` branch of your repository. The GitHub Actions workflow will trigger automatically, performing the following steps:
+Verify on Docker Hub that new tags appear, then pull and run the image anywhere:
 
-1. **Checkout Code**: Uses `actions/checkout` to check out the repository code.
-2. **Set Up Docker Buildx**: Uses `docker/setup-buildx-action` to set up Docker Buildx.
-3. **Log In to Docker Hub**: Uses `docker/login-action` to log into Docker Hub using the provided credentials.
-4. **Set Up Docker Compose**: Installs Docker Compose on the runner.
-5. **Build Docker Image**: Runs `docker-compose build` to build the Docker image.
-6. **Tag Docker Image**: Tags the built image with the specified tag.
-7. **Push Docker Image**: Pushes the tagged image to Docker Hub.
+```bash
+docker run -p 8000:8000 your-username/my-app:latest
+```
+
+### Next Steps (covered later in this module)
+
+- Add an image vulnerability scan with Trivy before pushing.
+- Push to Amazon ECR instead of Docker Hub using OIDC (see the S3/CloudFront guide for the OIDC setup).
+- Deploy the new image to Kubernetes automatically with Argo CD.
 
 ## Conclusion
 
 CI/CD practices are essential for modern software development, providing faster development cycles, improved code quality, and reduced manual errors. By using GitHub Actions to automate the build and push of Docker images to Docker Hub, you can streamline your development workflow and ensure consistent, reliable deployments.
 
-Implementing CI/CD with GitHub Actions and Docker Compose not only enhances productivity but also fosters a culture of collaboration and continuous improvement. Embrace CI/CD to accelerate your development process and deliver high-quality software with confidence.
+Implementing CI/CD with GitHub Actions not only enhances productivity but also fosters a culture of collaboration and continuous improvement. Embrace CI/CD to accelerate your development process and deliver high-quality software with confidence.
