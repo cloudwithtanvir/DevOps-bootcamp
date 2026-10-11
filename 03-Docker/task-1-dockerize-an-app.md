@@ -25,6 +25,13 @@
 - Dockerfile: Defines the Docker image for your application.
 - Source Code: Includes all the files and code necessary to build and run your application.
 - README.md: Provides instructions for building and running the Docker image, as well as any other relevant information about your application.
-- repo_link.md: Contains the link to your Git repository under the "solution" folder.
+- `.dockerignore`: Keeps `node_modules`, `.git`, `.env` and other unneeded files out of the image.
+- Submission file: `solutions/03-docker/<your-github-username>.md` in this repository, containing the link to your project repository, the final image size, and one thing you changed to make the image smaller or more secure. Follow [HOW-TO-SUBMIT.md](../HOW-TO-SUBMIT.md).
+
+**Bonus challenges:**
+
+- Use a multi-stage build and reduce the image size by at least 50%.
+- Run the container as a non-root user.
+- Add a `compose.yaml` that runs your app together with a database, and start it with `docker compose up`.
 
 Feel free to reach out if you have any questions or need further assistance!
