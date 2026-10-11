@@ -97,11 +97,12 @@ This module covers essential Linux skills for DevOps beginners, including basic 
 ### Basic Networking Commands and Configuration:
 
 - **Network Configuration:**
-    - `ifconfig`: Configure a network interface.
-    - `ip`: Show/manipulate routing, devices, policy routing, and tunnels.
+    - `ip addr`, `ip route`: Show interfaces, IP addresses and routes (the modern replacement for `ifconfig`).
+    - `ifconfig`: Older tool, still seen in tutorials; part of the deprecated `net-tools` package.
     - `ping`: Test network connectivity.
-    - `netstat`: Display network connections, routing tables, interface statistics.
-    - `ss`: Another utility to investigate sockets.
+    - `ss -tulpn`: Show listening ports and the processes using them (the modern replacement for `netstat`).
+    - `dig`, `nslookup`: Query DNS records.
+    - `curl -I <url>`: Check that a web server responds and inspect its HTTP headers.
 - **Network Management:**
     - `scp`: Secure copy files between hosts.
     - `ssh`: Securely connect to remote machines.
