@@ -1,130 +1,72 @@
-# How to submit solution
+# How to Submit Your Solution
 
-Here's the process for submitting your solution to a GitHub repository. Follow these steps:
+Every task in this bootcamp is submitted as a **pull request (PR)**. This is exactly how engineers propose changes at work, so you practise Git and code review from Week 1.
 
-### Step-by-Step Submission Process
+## Prerequisites
 
-### Prerequisites:
+1. A GitHub account.
+2. Git installed locally ([git-scm.com](https://git-scm.com/)), with your name and email configured:
+   ```bash
+   git config --global user.name "Your Name"
+   git config --global user.email "you@example.com"
+   ```
 
-1. Ensure you have a GitHub account.
-2. Install Git on your local machine if it's not already installed. You can download it from [git-scm.com](https://git-scm.com/).
+## One-time setup
 
-### Fork the Repository:
+1. **Fork** this repository: click **Fork** at the top right of the repository page. This creates your own copy.
+2. **Clone your fork** (replace `your-username`):
+   ```bash
+   git clone https://github.com/your-username/DevOps-bootcamp.git
+   cd DevOps-bootcamp
+   ```
+3. **Add the original repository as `upstream`**, so you can receive new material each week:
+   ```bash
+   git remote add upstream https://github.com/cloudwithtanvir/DevOps-bootcamp.git
+   ```
 
-1. Go to the GitHub repository where you need to submit your solution.
-2. Click on the `Fork` button at the top right corner of the repository page. This creates a copy of the repository under your GitHub account.
+## For every task
 
-### Clone the Forked Repository:
+1. **Get the latest material** before starting:
+   ```bash
+   git checkout master
+   git pull upstream master
+   ```
+2. **Create a branch** named after the task:
+   ```bash
+   git checkout -b 01-linux-task-1
+   ```
+3. **Add your solution** under `solutions/<module>/<your-github-username>`. Use the folder name given in each task, for example:
+   ```bash
+   mkdir -p solutions/01-linux
+   # write your answer in solutions/01-linux/your-username.md
+   ```
+   For projects that live in their own repository (for example a dockerized app), add a short `.md` file with the link and a summary of what you built.
+4. **Commit** with a meaningful message:
+   ```bash
+   git add solutions/
+   git commit -m "Add Linux task 1 solution (your-username)"
+   ```
+5. **Push** the branch to your fork:
+   ```bash
+   git push origin 01-linux-task-1
+   ```
+6. **Open a pull request**: go to your fork on GitHub, click **Compare & pull request**, give it a clear title (e.g., `[01-linux] Task 1 - your-username`), describe what you did and anything you got stuck on, then click **Create pull request**.
 
-1. Open a terminal on your local machine.
-2. Clone the forked repository to your local machine using the following command (replace `your-username` with your GitHub username):
-    
-    ```bash
-    git clone <https://github.com/your-username/repository-name.git>
-    
-    ```
-    
-3. Navigate into the cloned repository directory:
-    
-    ```bash
-    cd repository-name
-    
-    ```
-    
+## Review
 
-### Create a New Branch:
+Your mentor and peers will comment on the PR. To update it, commit to the same branch and push again; the PR updates automatically. Reviewing at least one peer's PR each week is part of the program.
 
-1. Create a new branch for your solution:
-    
-    ```bash
-    git checkout -b solution-branch
-    
-    ```
-    
+## Rules
 
-### Add Your Solution:
+- Never commit passwords, access keys, tokens or `.env` files. If you do by mistake, tell your mentor immediately and rotate the key.
+- Only add files inside your own `solutions/<module>/` path.
+- Prefer copy-pasted command output over screenshots: it is searchable and easier to review.
 
-1. Create a directory named `solution` if it doesn't already exist:
-    
-    ```bash
-    mkdir solution
-    
-    ```
-    
-2. Copy your solution files into the `solution` directory.
+## Checklist
 
-### Commit Your Changes:
-
-1. Add the new files to the staging area:
-    
-    ```bash
-    git add solution/*
-    
-    ```
-    
-2. Commit the changes with a meaningful message:
-    
-    ```bash
-    git commit -m "Add Linux Fundamentals practice solutions"
-    
-    ```
-    
-
-### Push Your Changes:
-
-1. Push your changes to the new branch on your forked repository:
-    
-    ```bash
-    git push origin solution-branch
-    
-    ```
-    
-
-### Create a Pull Request:
-
-1. Go to your forked repository on GitHub.
-2. You should see a notification suggesting you create a pull request for the branch you just pushed. Click on the `Compare & pull request` button.
-3. Fill in the pull request form with a meaningful title and description of the changes.
-4. Click on the `Create pull request` button to submit your pull request.
-
-### Example Commands
-
-Here's a summary of the Git commands you will use:
-
-```bash
-# Clone the forked repository
-git clone <https://github.com/your-username/repository-name.git>
-
-# Navigate into the repository directory
-cd repository-name
-
-# Create a new branch for the solution
-git checkout -b solution-branch
-
-# Create a solution directory if not exist
-mkdir solution
-
-# Add your solution files to the solution directory
-cp /path/to/your/solution/* solution/
-
-# Stage the new files
-git add solution/*
-
-# Commit the changes
-git commit -m "Add Linux Fundamentals practice solutions"
-
-# Push the changes to the solution branch
-git push origin solution-branch
-
-```
-
-### Submission Checklist
-
-1. Fork the repository on GitHub.
-2. Clone the forked repository to your local machine.
-3. Create a new branch for your solution.
-4. Add your solution files to the `solution` directory.
-5. Commit and push your changes.
-6. Create a pull request on GitHub.
-
-This process ensures that your solution is submitted correctly via GitHub, allowing the instructor to review your work efficiently.
+- [ ] Fork and clone (once)
+- [ ] Pull the latest material from `upstream`
+- [ ] Create a branch per task
+- [ ] Add your files under `solutions/<module>/`
+- [ ] Commit and push
+- [ ] Open a pull request and respond to review comments
