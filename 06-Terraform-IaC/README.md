@@ -1,3 +1,7 @@
+---
+title: "Module 06: Terraform and Infrastructure as Code (Week 9)"
+---
+
 # Module 06: Terraform and Infrastructure as Code (Week 9)
 
 *Status: coming soon. Topics and labs below are the plan.*

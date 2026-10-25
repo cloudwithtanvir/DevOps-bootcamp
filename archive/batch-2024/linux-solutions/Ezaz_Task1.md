@@ -1,3 +1,7 @@
+---
+title: "Solution 1: File System Navigation and File Management"
+---
+
 # Solution 1: File System Navigation and File Management
 
 1. **Navigate to the /var/log directory:**

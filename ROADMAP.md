@@ -1,3 +1,7 @@
+---
+title: "12-Week Roadmap"
+---
+
 # 12-Week Roadmap
 
 Six phases after a Week 0 onboarding. Every module reuses the same sample app, so by Week 12 it has grown into your capstone: app → Docker → Kubernetes → CI/CD → Terraform → monitoring.

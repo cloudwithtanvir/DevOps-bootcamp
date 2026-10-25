@@ -1,3 +1,7 @@
+---
+title: "Module 03: Docker and Containers (Week 5)"
+---
+
 # Module 03: Docker and Containers (Week 5)
 
 ## Materials

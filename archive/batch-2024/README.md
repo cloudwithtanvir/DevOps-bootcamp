@@ -1,3 +1,7 @@
+---
+title: "Archive: 2024 Batch"
+---
+
 # Archive: 2024 Batch
 
 Materials from the first run of the bootcamp (Level Up with Tech, 2024), kept for reference.

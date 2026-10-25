@@ -1,3 +1,7 @@
+---
+title: "Module 02: Cloud Fundamentals: AWS, Azure and GCP (Weeks 3–4)"
+---
+
 # Module 02: Cloud Fundamentals: AWS, Azure and GCP (Weeks 3–4)
 
 Go deep on one cloud (AWS) and broad on the others. Concepts transfer; service names change.

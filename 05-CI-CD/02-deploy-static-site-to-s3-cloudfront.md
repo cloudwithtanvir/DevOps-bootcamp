@@ -1,3 +1,7 @@
+---
+title: "Deploy a Static Site (React) to AWS S3 and CloudFront with GitHub Actions"
+---
+
 # Deploy a Static Site (React) to AWS S3 and CloudFront with GitHub Actions
 
 This step-by-step guide sets up CI/CD that builds a React project and deploys it to a **private** S3 bucket served through CloudFront. GitHub Actions authenticates to AWS with **OpenID Connect (OIDC)**, so no long-lived AWS access keys are stored in GitHub.
@@ -108,6 +112,7 @@ None of these are secret, so they are stored as variables. No AWS keys are neede
 
 Create `.github/workflows/deploy.yml`:
 
+{% raw %}
 ```yaml
 name: Deploy React App to AWS S3 and CloudFront
 
@@ -159,6 +164,7 @@ jobs:
             --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
 ```
+{% endraw %}
 
 > Action versions: these were current majors at the time of writing. Check each action's GitHub page for a newer major version before the session, and update all of them together.
 

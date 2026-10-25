@@ -1,3 +1,7 @@
+---
+title: "Module 00: Introduction to DevOps and Onboarding (Week 0)"
+---
+
 # Module 00: Introduction to DevOps and Onboarding (Week 0)
 
 ## Materials

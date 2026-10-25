@@ -1,3 +1,7 @@
+---
+title: "Module Overview:"
+---
+
 ### Module Overview:
 
 This module covers essential Linux skills for DevOps beginners, including basic commands, file system navigation, text editing, process management, networking, and package management.

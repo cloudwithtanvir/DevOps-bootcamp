@@ -1,3 +1,7 @@
+---
+title: "Module 09: Capstone Project (Week 12)"
+---
+
 # Module 09: Capstone Project (Week 12)
 
 Ship one production-style system end to end and present it in a 15-minute demo. This is the strongest item on your resume and the project you will talk about in interviews.

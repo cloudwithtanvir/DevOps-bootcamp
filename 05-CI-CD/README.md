@@ -1,3 +1,7 @@
+---
+title: "Module 05: CI/CD and Automation (Week 8)"
+---
+
 # Module 05: CI/CD and Automation (Week 8)
 
 ## Materials

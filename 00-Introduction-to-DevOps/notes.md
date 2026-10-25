@@ -1,3 +1,7 @@
+---
+title: "Module 1: Introduction to DevOps"
+---
+
 # Module 1: Introduction to DevOps
 
 Owner: Tanvir Ahmed

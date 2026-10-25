@@ -1,3 +1,7 @@
+---
+title: "DevOps Bootcamp - Outline"
+---
+
 # DevOps Bootcamp - Outline
 
 **Module 1: Introduction to DevOps**

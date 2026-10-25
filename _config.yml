@@ -5,7 +5,6 @@ baseurl: "/DevOps-bootcamp"
 lang: en
 markdown: kramdown
 highlighter: rouge
-permalink: pretty
 relative_links:
   enabled: true
   collections: true
@@ -16,7 +15,7 @@ defaults:
       path: ""
       type: pages
     values:
-      layout: default
+      layout: content
 exclude:
   - .github
   - .git

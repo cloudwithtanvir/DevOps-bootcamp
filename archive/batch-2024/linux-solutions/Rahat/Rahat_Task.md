@@ -1,3 +1,7 @@
+---
+title: "Task: Linux Fundamentals Practice"
+---
+
 ### Task: Linux Fundamentals Practice
 
 Folder Stucture:

@@ -1,3 +1,7 @@
+---
+title: "DevOps, Cloud & AI Bootcamp"
+---
+
 # DevOps, Cloud & AI Bootcamp
 
 A free, hands-on, 12-week program by **Tanvir Ahmed** that takes participants from IT basics to a job-ready Cloud/DevOps portfolio, with career guidance throughout. Built for a small batch of Bangladeshis living abroad who want to build a career in Cloud, DevOps, SRE or platform engineering.

@@ -1,3 +1,7 @@
+---
+title: "How to Submit Your Solution"
+---
+
 # How to Submit Your Solution
 
 Every task in this bootcamp is submitted as a **pull request (PR)**. This is exactly how engineers propose changes at work, so you practise Git and code review from Week 1.

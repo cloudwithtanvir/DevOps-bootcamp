@@ -1,31 +1,30 @@
 ---
 layout: default
 ---
-{% assign module = site.modules | where: "id", page.module_id | first %}
 <section class="module-hero">
   <div class="container">
     <a class="back-link" href="{{ '/' | relative_url }}#curriculum">← All modules</a>
-    <div class="module-kicker"><span>MODULE {{ module.id }}</span><span>{{ module.weeks }}</span></div>
-    <h1>{{ module.name }}</h1>
-    <p class="module-intro">{{ module.description }}</p>
-    <span class="status-pill">{{ module.status }}</span>
+    <div class="module-kicker"><span>MODULE {{ page.module_id }}</span><span>{{ page.weeks }}</span></div>
+    <h1>{{ page.title }}</h1>
+    <p class="module-intro">{{ page.description }}</p>
+    <span class="status-pill">{{ page.status }}</span>
   </div>
 </section>
 <section class="module-content container">
   <div class="module-main">
     <div class="section-label">LEARNING MATERIALS</div>
-    {% if module.materials.size > 0 %}
+    {% if page.materials.size > 0 %}
     <div class="material-list">
-      {% for material in module.materials %}
-      <a class="material-row" href="{{ '/' | append: module.slug | append: '/' | append: material[1] | replace: '.md', '.html' | relative_url }}">
-        <span>{{ material[0] }}</span><span class="arrow" aria-hidden="true">↗</span>
+      {% for material in page.materials %}
+      <a class="material-row" href="{{ '/' | append: page.module_path | append: '/' | append: material.file | replace: '.md', '.html' | relative_url }}">
+        <span>{{ material.label }}</span><span class="arrow" aria-hidden="true">↗</span>
       </a>
       {% endfor %}
     </div>
     {% else %}
     <div class="coming-card"><span class="coming-dot"></span><div><strong>Materials are in progress</strong><p>The module outline and planned labs are available in the original course notes.</p></div></div>
     {% endif %}
-    <a class="source-link" href="{{ '/' | append: module.slug | append: '/README.html' | relative_url }}">Open the original module overview <span aria-hidden="true">↗</span></a>
+    <a class="source-link" href="{{ '/' | append: page.module_path | append: '/README.html' | relative_url }}">Open the original module overview <span aria-hidden="true">↗</span></a>
   </div>
   <aside class="module-aside">
     <div class="section-label">IN THIS COURSE</div>

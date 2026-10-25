@@ -1,3 +1,7 @@
+---
+title: "Task: Create and Dockerize Your Favorite Tech Stack Project"
+---
+
 ### Task: Create and Dockerize Your Favorite Tech Stack Project
 
 #### Prerequisites:

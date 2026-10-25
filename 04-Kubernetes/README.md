@@ -1,3 +1,7 @@
+---
+title: "Module 04: Kubernetes (Weeks 6–7)"
+---
+
 # Module 04: Kubernetes (Weeks 6–7)
 
 *Status: coming soon. Topics and labs below are the plan.*

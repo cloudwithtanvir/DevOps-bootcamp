@@ -1,3 +1,7 @@
+---
+title: "task 1 dockerize an app"
+---
+
 **Task: Dockerize an Application**
 
 **Objective:** Dockerize an application based on your preferred stack to demonstrate containerization and deployment using Docker.

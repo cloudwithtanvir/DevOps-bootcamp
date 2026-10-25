@@ -1,3 +1,7 @@
+---
+title: "A Practical Guide to Containers with Docker"
+---
+
 ## A Practical Guide to Containers with Docker
 
 ### By Tanvir Ahmed

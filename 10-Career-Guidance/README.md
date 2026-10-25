@@ -1,3 +1,7 @@
+---
+title: "Module 10: Career Guidance (runs alongside Weeks 1–12)"
+---
+
 # Module 10: Career Guidance (runs alongside Weeks 1–12)
 
 Career work starts in Week 1, so you are applying by Week 10 instead of starting from zero after the program.

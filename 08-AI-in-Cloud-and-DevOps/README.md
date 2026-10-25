@@ -1,3 +1,7 @@
+---
+title: "Module 08: AI in Cloud and DevOps (Week 11)"
+---
+
 # Module 08: AI in Cloud and DevOps (Week 11)
 
 *Status: coming soon. Topics and labs below are the plan.*

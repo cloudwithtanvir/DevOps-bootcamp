@@ -1,3 +1,7 @@
+---
+title: "Task: Linux Fundamentals Practice"
+---
+
 ### Task: Linux Fundamentals Practice
 
 ### Exercise 1: File System Navigation and File Management

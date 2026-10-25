@@ -1,3 +1,7 @@
+---
+title: "Module 01: Linux and Git Foundations (Weeks 1–2)"
+---
+
 # Module 01: Linux and Git Foundations (Weeks 1–2)
 
 ## Materials

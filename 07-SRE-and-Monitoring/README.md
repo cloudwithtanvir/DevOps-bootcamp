@@ -1,3 +1,7 @@
+---
+title: "Module 07: SRE, Monitoring and Observability (Week 10)"
+---
+
 # Module 07: SRE, Monitoring and Observability (Week 10)
 
 *Status: coming soon. The 2024 outline's detailed monitoring module is in [archive/batch-2024/original-outline.md](../archive/batch-2024/original-outline.md) (Module 11).*

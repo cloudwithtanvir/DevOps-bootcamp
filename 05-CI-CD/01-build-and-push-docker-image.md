@@ -1,3 +1,7 @@
+---
+title: "Streamlining Development with CI/CD: Automating Docker Image Build and Push to Docker Hub"
+---
+
 # Streamlining Development with CI/CD: Automating Docker Image Build and Push to Docker Hub
 
 In modern software development, speed, efficiency, and reliability are paramount. Continuous Integration and Continuous Deployment (CI/CD) practices have emerged as essential methodologies to meet these demands. By automating the integration, testing, and deployment of code, CI/CD pipelines help developers catch bugs early, deploy faster, and ensure consistent quality. This article explores the benefits of CI/CD, introduces popular CI/CD platforms, explains GitHub Actions, and provides a step-by-step guide on using GitHub Actions to build and push Docker images to Docker Hub.
@@ -117,6 +121,7 @@ Add these to your repository under **Settings > Secrets and variables > Actions*
 
 Create `.github/workflows/docker-publish.yml`:
 
+{% raw %}
 ```yaml
 name: Build and Push Docker Image
 
@@ -166,6 +171,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 ```
+{% endraw %}
 
 Replace `my-app` with your Docker Hub repository name.
 
