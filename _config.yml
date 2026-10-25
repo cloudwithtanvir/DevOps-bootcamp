@@ -1,0 +1,114 @@
+title: DevOps, Cloud & AI Bootcamp
+description: A free, hands-on 12-week learning path from Linux foundations to a cloud-native capstone.
+url: "https://cloudwithtanvir.github.io"
+baseurl: "/DevOps-bootcamp"
+lang: en
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+relative_links:
+  enabled: true
+  collections: true
+plugins:
+  - jekyll-relative-links
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: default
+exclude:
+  - .github
+  - .git
+  - .DS_Store
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+
+modules:
+  - id: "00"
+    name: Introduction to DevOps
+    slug: 00-Introduction-to-DevOps
+    weeks: Week 0
+    status: Ready
+    description: Get oriented, set up your tools, and build a practical understanding of DevOps culture and delivery.
+    materials:
+      - ["Introduction to DevOps notes", notes.md]
+  - id: "01"
+    name: Linux and Git Foundations
+    slug: 01-Linux-Foundations
+    weeks: Weeks 1–2
+    status: Ready · Git lab in progress
+    description: Build confidence with Linux, networking, Git, and the command-line habits used throughout the course.
+    materials:
+      - ["Linux Fundamentals notes", notes.md]
+      - ["Task 1: Linux Fundamentals Practice", task-1-linux-practice.md]
+  - id: "02"
+    name: Cloud Fundamentals
+    slug: 02-Cloud-Fundamentals
+    weeks: Weeks 3–4
+    status: VM notes ready · AWS labs in progress
+    description: Learn cloud concepts through AWS, then map the ideas and services to Azure and Google Cloud.
+    materials:
+      - ["Virtual Machines", 01-virtual-machines.md]
+  - id: "03"
+    name: Docker and Containers
+    slug: 03-Docker
+    weeks: Week 5
+    status: Ready
+    description: Package the sample app, understand images and containers, and prepare it for later modules.
+    materials:
+      - ["Practical guide to Docker", notes.md]
+      - ["Task 1: Dockerize an application", task-1-dockerize-an-app.md]
+      - ["Step-by-step task guide", task-1-guide.md]
+  - id: "04"
+    name: Kubernetes
+    slug: 04-Kubernetes
+    weeks: Weeks 6–7
+    status: Coming soon
+    description: Deploy and operate the sample app on Kubernetes, then package it with Helm.
+    materials: []
+  - id: "05"
+    name: CI/CD and Automation
+    slug: 05-CI-CD
+    weeks: Week 8
+    status: Ready · Argo CD lab in progress
+    description: Automate builds and deployments with GitHub Actions, container registries, and cloud identity.
+    materials:
+      - ["Build and push a Docker image", 01-build-and-push-docker-image.md]
+      - ["Deploy a site to S3 and CloudFront", 02-deploy-static-site-to-s3-cloudfront.md]
+  - id: "06"
+    name: Terraform and Infrastructure as Code
+    slug: 06-Terraform-IaC
+    weeks: Week 9
+    status: Coming soon
+    description: Define cloud infrastructure as code and learn how to plan, review, apply, and tear it down safely.
+    materials: []
+  - id: "07"
+    name: SRE, Monitoring and Observability
+    slug: 07-SRE-and-Monitoring
+    weeks: Week 10
+    status: Coming soon
+    description: Use service objectives, metrics, logs, traces, and incident reviews to improve reliability.
+    materials: []
+  - id: "08"
+    name: AI in Cloud and DevOps
+    slug: 08-AI-in-Cloud-and-DevOps
+    weeks: Week 11
+    status: Coming soon
+    description: Apply AI to engineering work thoughtfully, with hands-on cloud AI and MLOps projects.
+    materials: []
+  - id: "09"
+    name: Capstone Project
+    slug: 09-Capstone
+    weeks: Week 12
+    status: Brief ready
+    description: Bring the course together in a production-style system you can demonstrate and discuss in interviews.
+    materials: []
+  - id: "10"
+    name: Career Guidance
+    slug: 10-Career-Guidance
+    weeks: Alongside Weeks 1–12
+    status: Plan ready
+    description: Build your career story and portfolio alongside the technical work, from target roles to applications.
+    materials: []

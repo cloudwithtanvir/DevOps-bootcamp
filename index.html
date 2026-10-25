@@ -1,0 +1,63 @@
+---
+layout: default
+title: Learn by building
+description: A free, hands-on 12-week DevOps, Cloud and AI learning path. Start with Linux and build toward a job-ready cloud-native portfolio.
+---
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="container hero-inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span> A FREE, HANDS-ON 12-WEEK PROGRAM</div>
+    <h1>Build the skills.<br><span>Ship the proof.</span></h1>
+    <p class="hero-copy">A practical path from Linux foundations to a cloud-native capstone. Learn by building, breaking, fixing, and explaining real projects.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="#curriculum">Explore the curriculum <span aria-hidden="true">↓</span></a>
+      <a class="button button-quiet" href="{{ '/ROADMAP.html' | relative_url }}">See the 12-week roadmap <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="hero-meta"><span><i class="meta-dot"></i> Free to join</span><span>Designed for hands-on learners</span><span>Bangla discussion · English materials</span></div>
+  </div>
+  <div class="hero-side-note">LEARN / BUILD / SHARE</div>
+</section>
+
+<section class="intro-strip">
+  <div class="container intro-grid">
+    <p class="intro-lead">One sample app.<br><span>A complete journey.</span></p>
+    <p class="intro-copy">Start with the command line, then carry one project through containers, Kubernetes, automation, infrastructure, observability, and AI. Your final capstone shows what you can do.</p>
+    <a class="text-link" href="{{ '/00-Introduction-to-DevOps/' | relative_url }}">Start with Week 0 <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section class="curriculum-section" id="curriculum">
+  <div class="container">
+    <div class="section-heading">
+      <div><div class="section-label">THE LEARNING PATH</div><h2>From first command<br>to production thinking.</h2></div>
+      <p>Ten technical modules plus career guidance, arranged to build practical skills one layer at a time.</p>
+    </div>
+    <div class="module-grid">
+      {% for module in site.modules %}
+      <a class="module-card" href="{{ module.slug | append: '/' | relative_url }}">
+        <div class="card-top"><span class="module-number">{{ module.id }}</span><span class="card-weeks">{{ module.weeks }}</span></div>
+        <h3>{{ module.name }}</h3>
+        <p>{{ module.description }}</p>
+        <div class="card-bottom"><span class="card-status"><i class="status-dot {% if module.status contains 'Coming soon' %}dot-muted{% endif %}"></i>{{ module.status }}</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="archive-banner"><div><span class="section-label">FROM THE FIRST COHORT</span><h3>Looking for the original 2024 materials?</h3></div><a class="text-link" href="{{ '/archive/batch-2024/' | relative_url }}">Browse the archive <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
+<section class="principles-section">
+  <div class="container principles-grid">
+    <div><div class="section-label">HOW WE LEARN</div><h2>Practice first.<br>Portfolio always.</h2></div>
+    <div class="principle"><span class="principle-index">01</span><div><h3>Build every week</h3><p>Every topic leads to a lab. Make something, break it, fix it, then explain what you learned.</p></div></div>
+    <div class="principle"><span class="principle-index">02</span><div><h3>Work in the open</h3><p>Use Git branches, pull requests, peer reviews, and clear READMEs—the same habits teams use at work.</p></div></div>
+    <div class="principle"><span class="principle-index">03</span><div><h3>Keep costs in view</h3><p>Prefer local labs and free tiers. Set billing alerts and tear down cloud resources after each exercise.</p></div></div>
+  </div>
+</section>
+
+<section class="start-section">
+  <div class="container start-panel">
+    <div><div class="section-label">READY TO BEGIN?</div><h2>Start where you are.<br>Build from there.</h2><p>Set up your tools, pick a goal, and take the first step with Week 0.</p></div>
+    <div class="start-actions"><a class="button button-primary" href="{{ '/00-Introduction-to-DevOps/' | relative_url }}">Open onboarding <span aria-hidden="true">→</span></a><a class="under-link" href="{{ '/HOW-TO-SUBMIT.html' | relative_url }}">How to submit your work</a></div>
+  </div>
+</section>

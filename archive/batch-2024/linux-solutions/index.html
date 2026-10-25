@@ -1,0 +1,9 @@
+---
+layout: default
+title: 2024 Linux Solutions
+---
+<section class="module-hero"><div class="container"><a class="back-link" href="{{ '/archive/batch-2024/' | relative_url }}">← 2024 archive</a><div class="module-kicker"><span>LEARNER SUBMISSIONS</span><span>2024 COHORT</span></div><h1>Linux task solutions</h1><p class="module-intro">Submitted practice work from the first cohort. Complete the exercise yourself before using these as references.</p></div></section>
+<section class="module-content container"><div class="module-main"><div class="section-label">SUBMISSIONS</div><div class="material-list">
+{% assign submissions = site.pages | where_exp: "file", "file.path contains 'archive/batch-2024/linux-solutions/'" | where_exp: "file", "file.name contains '.md'" | sort: "path" %}
+{% for file in submissions %}<a class="material-row" href="{{ file.url | relative_url }}"><span>{{ file.name | replace: '_', ' ' | replace: '-', ' ' }}</span><span class="arrow" aria-hidden="true">↗</span></a>{% endfor %}
+</div></div></section>
