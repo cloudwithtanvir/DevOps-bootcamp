@@ -11,4 +11,36 @@ materials:
     file: notes.md
   - label: "Task 1: Linux Fundamentals Practice"
     file: task-1-linux-practice.md
+interactive_quiz:
+  - question: Which command prints the directory you are currently working in?
+    options: ["ls", "pwd", "cd", "whoami"]
+    answer: pwd
+  - question: Which command displays permissions, owner, and group in a long listing?
+    options: ["ls -l", "chmod", "find", "cat"]
+    answer: ls -l
+  - question: What does the numeric permission mode 755 represent for the owner?
+    options: ["Read only", "Read and write", "Read, write, and execute", "No permissions"]
+    answer: Read, write, and execute
+  - question: Which command shows listening TCP and UDP sockets on a modern Linux system?
+    options: ["ip route", "ss -tulpn", "dig", "ps aux"]
+    answer: ss -tulpn
+  - question: Which command should you use to stop the nginx service managed by systemd?
+    options: ["sudo systemctl stop nginx", "killall nginx", "sudo apt remove nginx", "service nginx install"]
+    answer: sudo systemctl stop nginx
+interactive_steps:
+  - title: Confirm your current location
+    detail: Print the absolute path of your current working directory.
+    command: pwd
+  - title: Inspect the current directory
+    detail: Show hidden files and detailed permissions.
+    command: ls -la
+  - title: Create a practice workspace
+    detail: Create a directory and enter it.
+    command: mkdir -p ~/devops-lab && cd ~/devops-lab
+  - title: Create a log file
+    detail: Create an empty file, then verify it exists.
+    command: touch practice.log && ls -l practice.log
+  - title: Search for a word in a file
+    detail: Add a line, then find it with grep.
+    command: echo "bootcamp started" > practice.log && grep "bootcamp" practice.log
 ---
