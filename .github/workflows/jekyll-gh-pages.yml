@@ -17,10 +17,18 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout triggering branch
         uses: actions/checkout@v4
+
+      - name: Checkout dev source for preview refresh
+        if: github.ref == 'refs/heads/master'
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-source
 
       - name: Checkout production source for dev deployment
         if: github.ref == 'refs/heads/dev'
@@ -28,13 +36,6 @@ jobs:
         with:
           ref: master
           path: .github/production-source
-
-      - name: Checkout dev source for production deployment
-        if: github.ref == 'refs/heads/master'
-        uses: actions/checkout@v4
-        with:
-          ref: dev
-          path: .github/dev-source
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -86,6 +87,7 @@ jobs:
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
 
+  # Deploy the combined site for production pushes and dev preview refreshes.
   deploy:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     environment:
