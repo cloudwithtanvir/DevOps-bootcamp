@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: dev
-          path: dev-source
+          path: .github/dev-source
 
       - name: Checkout production source for dev deployment
         if: github.ref == 'refs/heads/dev'
