@@ -22,6 +22,66 @@ By the end of this module, you should be able to:
 6. Write and run a small Bash script and schedule a task with cron.
 7. Troubleshoot a simple service that is unavailable.
 
+## A quick tour: Unix, Linux, macOS, BSD, and Windows
+
+Before learning commands, it helps to understand where these operating systems fit. They are related in some ways, but they do not all use the same kernel.
+
+### What is a kernel?
+
+The **kernel** is the core part of an operating system. It manages CPU time, memory, processes, device access, filesystems, and networking. Applications ask the kernel to perform protected operations through system calls.
+
+A simple mental model:
+
+- **Hardware:** CPU, RAM, disks, network cards.
+- **Kernel:** manages access to hardware and system resources.
+- **User space:** shells, libraries, system services, and applications.
+- **Distribution (distro):** a packaged operating-system environment built around a kernel plus user-space tools, package management, and defaults.
+
+### The family tree, in simple terms
+
+| Operating system | Kernel / heritage | What to remember |
+|---|---|---|
+| **Linux** | Linux kernel; Unix-like design | Linux is a kernel. A distribution such as Ubuntu combines it with user-space tools and applications. |
+| **Ubuntu** | Linux kernel + GNU and other user-space components | Ubuntu is a Linux distribution, not a separate kernel. It is widely used on cloud servers and in DevOps labs. |
+| **Debian, Fedora, Red Hat Enterprise Linux (RHEL)** | Linux kernel | Other Linux distributions with different release models, package tools, and administration choices. |
+| **BSD family** (FreeBSD, OpenBSD, NetBSD) | BSD Unix heritage; each has its own kernel and userland | Unix-like systems often used in networking, security, appliances, and specialist infrastructure. |
+| **macOS** | XNU kernel, combining Mach and BSD-derived components; Darwin is its open-source foundation | macOS has a Unix foundation and is certified as a UNIX operating system. Its command line feels familiar, but it is not Linux. |
+| **Windows** | Windows NT kernel | A different operating-system family. PowerShell and Windows administration differ from Linux, although Windows also provides OpenSSH and other familiar tools. |
+
+### Interesting facts
+
+- **Linux began in 1991.** Linus Torvalds started it as a personal project; it grew into a globally developed open-source kernel.
+- **Linux is not the same thing as Unix.** It is Unix-like: it follows many similar concepts and interfaces, but it was developed independently and is not simply a version of the original Unix codebase.
+- **GNU matters.** Many traditional Linux distributions combine the Linux kernel with GNU tools and libraries. That is why you may see the name “GNU/Linux.”
+- **Android uses the Linux kernel.** Android adds its own platform, libraries, runtime, and application framework on top.
+- **macOS is not Linux.** Both provide Unix-like command-line experiences, but macOS uses the XNU kernel, while Linux distributions use the Linux kernel.
+- **Containers are not small virtual machines.** Linux containers normally share the host's Linux kernel while isolating processes and other resources. A virtual machine runs its own guest operating-system kernel.
+- **WSL 2 uses a real Linux kernel.** It runs a Linux kernel in a lightweight managed virtual machine, which is why it behaves differently from the older WSL 1 compatibility layer.
+- **The penguin is called Tux.** It became the well-known mascot of Linux.
+
+### Why this matters to DevOps
+
+The same concepts—processes, files, permissions, networking, and services—appear across many Unix-like environments, but commands and service managers can differ. For example, Ubuntu commonly uses `apt` and `systemd`; macOS uses tools such as `brew` and `launchd`; Windows commonly uses PowerShell and Windows services.
+
+For this bootcamp, we use **Ubuntu** so everyone can practise on a consistent Linux server environment. When you work on macOS or Windows locally, you can still connect to an Ubuntu VM over SSH.
+
+**Try this comparison:** Run these commands on your Ubuntu VM and, if available, on your Mac terminal or Windows PowerShell:
+
+```bash
+uname -s
+uname -r
+```
+
+On Linux, `uname -s` normally prints `Linux`. On macOS it prints `Darwin`. On Windows PowerShell, use:
+
+```powershell
+Get-ComputerInfo | Select-Object WindowsProductName, OsVersion
+```
+
+The result helps identify the operating-system environment; it does not by itself tell you every detail about the distribution or user-space tools.
+
+---
+
 ## 1. Linux, the shell, and the terminal
 
 Linux is an operating-system kernel; distributions such as Ubuntu package the kernel with system tools, libraries, and software. The **terminal** is the interface where you type commands. A **shell** such as Bash interprets those commands.
