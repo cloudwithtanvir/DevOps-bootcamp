@@ -5,12 +5,6 @@ on:
   push:
     branches: ["master", "dev"]
   workflow_dispatch:
-  # After a successful dev build, publish the refreshed dev preview
-  # from the default-branch context (required by the GitHub Pages environment).
-  workflow_run:
-    workflows: ["Build and deploy Jekyll site"]
-    types: [completed]
-    branches: ["dev"]
 
 permissions:
   contents: read
@@ -29,19 +23,19 @@ jobs:
       - name: Checkout triggering branch
         uses: actions/checkout@v4
 
+      - name: Checkout dev source for preview refresh
+        if: github.ref == 'refs/heads/master'
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-source
+
       - name: Checkout production source for dev deployment
         if: github.ref == 'refs/heads/dev'
         uses: actions/checkout@v4
         with:
           ref: master
           path: production-source
-
-      - name: Checkout dev source for production deployment
-        if: github.ref == 'refs/heads/master'
-        uses: actions/checkout@v4
-        with:
-          ref: dev
-          path: dev-source
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
