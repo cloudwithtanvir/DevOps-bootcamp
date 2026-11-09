@@ -61,6 +61,7 @@ Linux permissions control how the file's owner, members of its group, and other 
 - **Change permissions:** `chmod 755 script.sh` sets numeric permissions. Symbolic examples: `chmod ug+rwx example.txt` grants read, write, and execute to owner and group; `chmod o+r example.txt` grants read to others. Use `+` to add, `-` to remove, and `=` to set permissions.
 - **Change ownership:** `chown user file` changes the owner; `chgrp group file` changes the group. These operations may require elevated privileges.
 - **Special permissions:** Setuid (SUID) can make an executable run with the file owner's effective user ID; setgid (SGID) can make an executable run with the file's group ID and causes new entries in a directory to inherit its group; the sticky bit on a directory limits removal of entries, typically allowing only the entry's owner, directory owner, or a privileged user to remove them. Use special bits carefully and only when needed.
+- **Further reading:** [Linux file permissions explained](https://www.redhat.com/en/blog/linux-file-permissions-explained)
 
 ### Special Files (/dev, /proc, /sys):
 
