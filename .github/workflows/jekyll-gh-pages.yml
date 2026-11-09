@@ -5,6 +5,12 @@ on:
   push:
     branches: ["master", "dev"]
   workflow_dispatch:
+  # After a successful dev build, publish the refreshed dev preview
+  # from the default-branch context (required by the GitHub Pages environment).
+  workflow_run:
+    workflows: ["Build and deploy Jekyll site"]
+    types: [completed]
+    branches: ["dev"]
 
 permissions:
   contents: read
@@ -17,6 +23,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout triggering branch
