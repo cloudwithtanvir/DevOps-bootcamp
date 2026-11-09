@@ -1,4 +1,4 @@
-# Build production from master and a separately based preview from dev.
+# Production is built from master; the public preview is built from dev.
 name: Build and deploy Jekyll site
 
 on:
@@ -22,17 +22,23 @@ jobs:
       - name: Checkout triggering branch
         uses: actions/checkout@v4
 
-      - name: Checkout production source
+      - name: Checkout production source for dev deployment
         if: github.ref == 'refs/heads/dev'
         uses: actions/checkout@v4
         with:
           ref: master
           path: production-source
 
+      - name: Checkout dev source for production deployment
+        if: github.ref == 'refs/heads/master'
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-source
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # A dev push publishes the unchanged master site at the root, plus dev under /preview/.
       - name: Build production site from master (dev run)
         if: github.ref == 'refs/heads/dev'
         uses: actions/jekyll-build-pages@v1
@@ -48,14 +54,25 @@ jobs:
           destination: ./_site
 
       - name: Set preview base URL
-        if: github.ref == 'refs/heads/dev'
-        run: sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' _config.yml
+        run: |
+          if [ "$GITHUB_REF" = "refs/heads/dev" ]; then
+            sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' _config.yml
+          else
+            sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' dev-source/_config.yml
+          fi
 
-      - name: Build dev preview under /preview/
+      - name: Build dev preview under /preview/ (dev run)
         if: github.ref == 'refs/heads/dev'
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
+          destination: ./_site/preview
+
+      - name: Build dev preview under /preview/ (master run)
+        if: github.ref == 'refs/heads/master'
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./dev-source
           destination: ./_site/preview
 
       - name: Upload dev preview artifact
