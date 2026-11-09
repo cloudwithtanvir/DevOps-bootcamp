@@ -51,10 +51,17 @@ This module covers essential Linux skills for DevOps beginners, including basic 
 
 ### Permissions Management:
 
-- **File Permissions:**
-    - **Types:** Read (`r`), Write (`w`), Execute (`x`).
-    - **User Classes:** Owner, group, others.
-    - **Command:** `chmod` (e.g., `chmod 755 filename`).
+Linux permissions control how the file's owner, members of its group, and other users can access files and directories.
+
+- **View permissions:** Run `ls -l`. For example, `-rw-r--r--` describes a regular file; the first character is the file type, followed by three permission triplets for owner, group, and others. A `d` in the first position indicates a directory.
+- **Permission types:** Read (`r`), write (`w`), and execute (`x`). A hyphen (`-`) means that permission is not granted. For a regular file, these allow reading its contents, changing its contents, and running it as a program or script, respectively.
+- **User classes:** `u` is the owner, `g` is the owning group, `o` is others, and `a` means all classes. Permission checks use the applicable class: owner permissions take precedence, then group permissions, then others.
+- **Directory permissions:** Read allows listing directory entries; write allows creating and removing entries (normally in combination with execute); execute allows searching/traversing the directory, such as accessing entries by name or using `cd`. Directory permissions also depend on permissions on parent directories.
+- **Numeric (octal) mode:** `r=4`, `w=2`, and `x=1`; add the values in each triplet. For example, `755` means owner `rwx` (4+2+1), group `r-x` (4+0+1), and others `r-x` (4+0+1). `644` means owner `rw-`, group `r--`, and others `r--`.
+- **Change permissions:** `chmod 755 script.sh` sets numeric permissions. Symbolic examples: `chmod ug+rwx example.txt` grants read, write, and execute to owner and group; `chmod o+r example.txt` grants read to others. Use `+` to add, `-` to remove, and `=` to set permissions.
+- **Change ownership:** `chown user file` changes the owner; `chgrp group file` changes the group. These operations may require elevated privileges.
+- **Special permissions:** Setuid (SUID) can make an executable run with the file owner's effective user ID; setgid (SGID) can make an executable run with the file's group ID and causes new entries in a directory to inherit its group; the sticky bit on a directory limits removal of entries, typically allowing only the entry's owner, directory owner, or a privileged user to remove them. Use special bits carefully and only when needed.
+- **Further reading:** [Linux file permissions explained](https://www.redhat.com/en/blog/linux-file-permissions-explained)
 
 ### Special Files (/dev, /proc, /sys):
 
@@ -132,4 +139,4 @@ This module covers essential Linux skills for DevOps beginners, including basic 
 
 ---
 
-This detailed content should provide a comprehensive foundation for beginners to understand and start using Linux in a DevOps context. Each section can be supplemented with hands-on exercises and practical examples to reinforce learning.
+This detailed content should provide a comprehensive foundation for beginners to understand and start using Linux in a DevOps context. Each section can be supplemented with hands-on exercises and practice.
