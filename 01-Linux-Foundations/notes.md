@@ -439,6 +439,32 @@ Before moving on, make sure you can explain:
 - [ ] How to run a Bash script and read a cron schedule.
 - [ ] How to check CPU, memory, and disk usage.
 
+## Recommended references and official documentation
+
+Use these resources when you want to go deeper. Start with the Ubuntu and GNU Bash documentation; the kernel and operating-system references are useful for understanding the bigger picture.
+
+### Beginner-friendly Linux learning
+
+- [Ubuntu Server documentation](https://documentation.ubuntu.com/server/) — practical guidance for administering Ubuntu servers.
+- [The Linux command line — GNU Bash manual](https://www.gnu.org/software/bash/manual/) — the official Bash reference for shell features, variables, conditions, loops, and scripting.
+- [Linux man-pages project](https://www.kernel.org/doc/man-pages/) — reference documentation for Linux commands, system calls, and library functions. Use it when you want to understand exactly what a command or interface does.
+
+### Linux internals and operating systems
+
+- [The Linux Kernel documentation](https://docs.kernel.org/) — official documentation about the Linux kernel, its subsystems, and configuration.
+- [GNU project](https://www.gnu.org/) — background on the GNU tools commonly found in Linux distributions.
+- [FreeBSD Handbook](https://docs.freebsd.org/en/books/handbook/) — a useful comparison with another Unix-like operating system.
+- [Apple Open Source — XNU](https://github.com/apple-oss-distributions/xnu) — source repository for the XNU kernel used by macOS.
+
+### DevOps tools used in this module
+
+- [OpenSSH manual pages](https://www.openssh.com/manual.html) — SSH client, server, key, and configuration references.
+- [systemd documentation](https://www.freedesktop.org/software/systemd/man/latest/) — service management, units, and journal documentation.
+- [Docker: What is a container?](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/) — understand container fundamentals and how containers differ from virtual machines.
+- [Microsoft: WSL documentation](https://learn.microsoft.com/en-us/windows/wsl/) — official guide to running Linux environments on Windows.
+
+**Study tip:** Do not try to read every reference from beginning to end. Use the links as a trusted source when a command, concept, or troubleshooting step is unfamiliar. Practise in your Ubuntu VM before applying commands to a production server.
+
 ## Further practice
 
 - [Guided Ubuntu VM Lab](task-1-linux-practice.md)
