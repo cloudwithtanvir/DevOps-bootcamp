@@ -32,3 +32,40 @@ layout: default
     <a href="{{ '/ROADMAP.html' | relative_url }}">View the 12-week roadmap →</a>
   </aside>
 </section>
+{% if page.interactive_quiz %}
+<section class="interactive-section container" data-interactive-lesson>
+  <div class="interactive-heading">
+    <div><div class="section-label">LEARN BY DOING · MODULE {{ page.module_id }}</div><h2>Knowledge check</h2><p>Answer each question, then check your score. You can retry as often as you like.</p></div>
+    <span class="interactive-tag">INTERACTIVE</span>
+  </div>
+  <form class="quiz-card" data-quiz>
+    {% for question in page.interactive_quiz %}
+    <fieldset class="quiz-question" data-question data-answer="{{ question.answer }}">
+      <legend><span class="question-number">0{{ forloop.index }}</span>{{ question.question }}</legend>
+      <div class="quiz-options">
+        {% for option in question.options %}
+        <label class="quiz-option"><input type="radio" name="question-{{ forloop.parentloop.index }}" value="{{ option | escape }}"><span>{{ option }}</span></label>
+        {% endfor %}
+      </div>
+      <p class="quiz-feedback" aria-live="polite"></p>
+    </fieldset>
+    {% endfor %}
+    <div class="quiz-actions"><button class="button button-primary" type="submit">Check answers <span aria-hidden="true">→</span></button><button class="quiz-reset" type="reset">Try again</button><p class="quiz-result" data-quiz-result aria-live="polite"></p></div>
+  </form>
+</section>
+{% endif %}
+{% if page.interactive_steps %}
+<section class="interactive-section container">
+  <div class="interactive-heading">
+    <div><div class="section-label">HANDS-ON PRACTICE</div><h2>Guided lab checklist</h2><p>Work in your own Ubuntu VM, WSL environment, or Linux machine. Tick off each step as you complete it.</p></div>
+    <span class="interactive-tag">YOUR LAB</span>
+  </div>
+  <div class="lab-card" data-lab-checklist>
+    {% for step in page.interactive_steps %}
+    <label class="lab-step"><input type="checkbox"><span class="lab-step-number">{{ forloop.index | prepend: '0' }}</span><span class="lab-step-copy"><strong>{{ step.title }}</strong><small>{{ step.detail }}</small><code>{{ step.command }}</code></span></label>
+    {% endfor %}
+    <div class="lab-progress"><div class="lab-progress-track"><span data-lab-progress></span></div><p data-lab-count>0 of {{ page.interactive_steps.size }} steps completed</p></div>
+  </div>
+</section>
+<script src="{{ '/assets/js/interactive-labs.js' | relative_url }}" defer></script>
+{% endif %}
