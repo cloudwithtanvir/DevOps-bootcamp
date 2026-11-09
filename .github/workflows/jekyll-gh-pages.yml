@@ -28,14 +28,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: dev
-          path: dev-source
+          path: .github/dev-source
 
       - name: Checkout production source for dev deployment
         if: github.ref == 'refs/heads/dev'
         uses: actions/checkout@v4
         with:
           ref: master
-          path: production-source
+          path: .github/production-source
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -44,7 +44,7 @@ jobs:
         if: github.ref == 'refs/heads/dev'
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./production-source
+          source: ./.github/production-source
           destination: ./_site
 
       - name: Build production site (master run)
@@ -59,7 +59,7 @@ jobs:
           if [ "$GITHUB_REF" = "refs/heads/dev" ]; then
             sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' _config.yml
           else
-            sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' dev-source/_config.yml
+            sed -i 's|baseurl: "/DevOps-bootcamp"|baseurl: "/DevOps-bootcamp/preview"|' .github/dev-source/_config.yml
           fi
 
       - name: Build dev preview under /preview/ (dev run)
@@ -73,7 +73,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./dev-source
+          source: ./.github/dev-source
           destination: ./_site/preview
 
       - name: Upload dev preview artifact

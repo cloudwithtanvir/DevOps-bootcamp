@@ -1,142 +1,474 @@
 ---
-title: "Module Overview:"
+title: "Linux Foundations for DevOps"
 ---
 
-### Module Overview:
+# Linux Foundations for DevOps
 
-This module covers essential Linux skills for DevOps beginners, including basic commands, file system navigation, text editing, process management, networking, and package management.
+**Level:** Beginner · **Recommended pace:** 2 weeks · **Practice environment:** Ubuntu 22.04/24.04
 
----
+Linux is the operating system behind a large part of modern cloud infrastructure. DevOps engineers use it to connect to servers, deploy applications, inspect logs, manage services, troubleshoot networks, automate routine work, and secure workloads.
 
-### 1. Basic Commands
+This lesson is designed to be used alongside the [Guided Ubuntu VM Lab](task-1-linux-practice.md). Read a topic, run the commands in your own lab environment, and record what you observe.
 
-### Introduction to Commonly Used Commands:
+## Learning outcomes
 
-- **Navigation and Directory Management:**
-    - `pwd`: Print working directory.
-    - `ls`: List directory contents.
-    - `cd`: Change directory.
-    - `mkdir`: Create a new directory.
-    - `rmdir`: Remove a directory.
-    - `cp`: Copy files or directories.
-    - `mv`: Move or rename files or directories.
-    - `rm`: Remove files or directories.
-- **File Management:**
-    - `touch`: Create an empty file or update the timestamp of a file.
-    - `cat`: Concatenate and display file content.
-    - `more`, `less`: View file content one page at a time.
-    - `head`, `tail`: Display the beginning or end of a file.
-    - `nano`, `vim`: Text editors for editing file content.
-- **File Search and Permissions:**
-    - `find`: Search for files in a directory hierarchy.
-    - `grep`: Search for patterns within files.
-    - `chmod`: Change file modes or access permissions.
-    - `chown`: Change file owner and group.
+By the end of this module, you should be able to:
 
----
+1. Navigate the Linux filesystem and manage files safely.
+2. Explain users, groups, ownership, and basic permissions.
+3. Install packages and manage services with `apt` and `systemctl`.
+4. Inspect processes, logs, disk, memory, CPU, and network connectivity.
+5. Connect to a remote Linux server using SSH and transfer files with SCP.
+6. Write and run a small Bash script and schedule a task with cron.
+7. Troubleshoot a simple service that is unavailable.
 
-### 2. File System
+## A quick tour: Unix, Linux, macOS, BSD, and Windows
 
-### Understanding Linux File System Hierarchy:
+Before learning commands, it helps to understand where these operating systems fit. They are related in some ways, but they do not all use the same kernel.
 
-- **Root Directory (`/`):** The base of the Linux file system.
-- **Common Directories:**
-    - `/bin`: Essential command binaries.
-    - `/sbin`: System binaries.
-    - `/etc`: Configuration files.
-    - `/home`: User home directories.
-    - `/var`: Variable files like logs.
-    - `/usr`: User binaries and program data.
-    - `/tmp`: Temporary files.
+### What is a kernel?
 
-### Permissions Management:
+The **kernel** is the core part of an operating system. It manages CPU time, memory, processes, device access, filesystems, and networking. Applications ask the kernel to perform protected operations through system calls.
 
-Linux permissions control how the file's owner, members of its group, and other users can access files and directories.
+A simple mental model:
 
-- **View permissions:** Run `ls -l`. For example, `-rw-r--r--` describes a regular file; the first character is the file type, followed by three permission triplets for owner, group, and others. A `d` in the first position indicates a directory.
-- **Permission types:** Read (`r`), write (`w`), and execute (`x`). A hyphen (`-`) means that permission is not granted. For a regular file, these allow reading its contents, changing its contents, and running it as a program or script, respectively.
-- **User classes:** `u` is the owner, `g` is the owning group, `o` is others, and `a` means all classes. Permission checks use the applicable class: owner permissions take precedence, then group permissions, then others.
-- **Directory permissions:** Read allows listing directory entries; write allows creating and removing entries (normally in combination with execute); execute allows searching/traversing the directory, such as accessing entries by name or using `cd`. Directory permissions also depend on permissions on parent directories.
-- **Numeric (octal) mode:** `r=4`, `w=2`, and `x=1`; add the values in each triplet. For example, `755` means owner `rwx` (4+2+1), group `r-x` (4+0+1), and others `r-x` (4+0+1). `644` means owner `rw-`, group `r--`, and others `r--`.
-- **Change permissions:** `chmod 755 script.sh` sets numeric permissions. Symbolic examples: `chmod ug+rwx example.txt` grants read, write, and execute to owner and group; `chmod o+r example.txt` grants read to others. Use `+` to add, `-` to remove, and `=` to set permissions.
-- **Change ownership:** `chown user file` changes the owner; `chgrp group file` changes the group. These operations may require elevated privileges.
-- **Special permissions:** Setuid (SUID) can make an executable run with the file owner's effective user ID; setgid (SGID) can make an executable run with the file's group ID and causes new entries in a directory to inherit its group; the sticky bit on a directory limits removal of entries, typically allowing only the entry's owner, directory owner, or a privileged user to remove them. Use special bits carefully and only when needed.
-- **Further reading:** [Linux file permissions explained](https://www.redhat.com/en/blog/linux-file-permissions-explained)
+- **Hardware:** CPU, RAM, disks, network cards.
+- **Kernel:** manages access to hardware and system resources.
+- **User space:** shells, libraries, system services, and applications.
+- **Distribution (distro):** a packaged operating-system environment built around a kernel plus user-space tools, package management, and defaults.
 
-### Special Files (/dev, /proc, /sys):
+### The family tree, in simple terms
 
-- **/dev:** Device files representing hardware devices.
-- **/proc:** Virtual filesystem providing process and system information.
-- **/sys:** Interface to kernel data structures.
+| Operating system | Kernel / heritage | What to remember |
+|---|---|---|
+| **Linux** | Linux kernel; Unix-like design | Linux is a kernel. A distribution such as Ubuntu combines it with user-space tools and applications. |
+| **Ubuntu** | Linux kernel + GNU and other user-space components | Ubuntu is a Linux distribution, not a separate kernel. It is widely used on cloud servers and in DevOps labs. |
+| **Debian, Fedora, Red Hat Enterprise Linux (RHEL)** | Linux kernel | Other Linux distributions with different release models, package tools, and administration choices. |
+| **BSD family** (FreeBSD, OpenBSD, NetBSD) | BSD Unix heritage; each has its own kernel and userland | Unix-like systems often used in networking, security, appliances, and specialist infrastructure. |
+| **macOS** | XNU kernel, combining Mach and BSD-derived components; Darwin is its open-source foundation | macOS has a Unix foundation and is certified as a UNIX operating system. Its command line feels familiar, but it is not Linux. |
+| **Windows** | Windows NT kernel | A different operating-system family. PowerShell and Windows administration differ from Linux, although Windows also provides OpenSSH and other familiar tools. |
 
----
+### Interesting facts
 
-### 3. Text Editors
+- **Linux began in 1991.** Linus Torvalds started it as a personal project; it grew into a globally developed open-source kernel.
+- **Linux is not the same thing as Unix.** It is Unix-like: it follows many similar concepts and interfaces, but it was developed independently and is not simply a version of the original Unix codebase.
+- **GNU matters.** Many traditional Linux distributions combine the Linux kernel with GNU tools and libraries. That is why you may see the name “GNU/Linux.”
+- **Android uses the Linux kernel.** Android adds its own platform, libraries, runtime, and application framework on top.
+- **macOS is not Linux.** Both provide Unix-like command-line experiences, but macOS uses the XNU kernel, while Linux distributions use the Linux kernel.
+- **Containers are not small virtual machines.** Linux containers normally share the host's Linux kernel while isolating processes and other resources. A virtual machine runs its own guest operating-system kernel.
+- **WSL 2 uses a real Linux kernel.** It runs a Linux kernel in a lightweight managed virtual machine, which is why it behaves differently from the older WSL 1 compatibility layer.
+- **The penguin is called Tux.** It became the well-known mascot of Linux.
 
-### Proficiency with Command-Line Text Editors:
+### Why this matters to DevOps
 
-- **Nano:**
-    - Easy-to-use text editor.
-    - Basic commands: `Ctrl+O` (write out/save), `Ctrl+X` (exit).
-- **Vim:**
-    - More powerful but complex editor.
-    - Modes: Normal, Insert, Visual, Command-line.
-    - Basic commands: `i` (insert mode), `:w` (write/save), `:q` (quit).
+The same concepts—processes, files, permissions, networking, and services—appear across many Unix-like environments, but commands and service managers can differ. For example, Ubuntu commonly uses `apt` and `systemd`; macOS uses tools such as `brew` and `launchd`; Windows commonly uses PowerShell and Windows services.
+
+For this bootcamp, we use **Ubuntu** so everyone can practise on a consistent Linux server environment. When you work on macOS or Windows locally, you can still connect to an Ubuntu VM over SSH.
+
+**Try this comparison:** Run these commands on your Ubuntu VM and, if available, on your Mac terminal or Windows PowerShell:
+
+```bash
+uname -s
+uname -r
+```
+
+On Linux, `uname -s` normally prints `Linux`. On macOS it prints `Darwin`. On Windows PowerShell, use:
+
+```powershell
+Get-ComputerInfo | Select-Object WindowsProductName, OsVersion
+```
+
+The result helps identify the operating-system environment; it does not by itself tell you every detail about the distribution or user-space tools.
 
 ---
 
-### 4. Processes
+## 1. Linux, the shell, and the terminal
 
-### Managing Processes and System Resources:
+Linux is an operating-system kernel; distributions such as Ubuntu package the kernel with system tools, libraries, and software. The **terminal** is the interface where you type commands. A **shell** such as Bash interprets those commands.
 
-- **Process Commands:**
-    - `ps`: Display current processes.
-    - `top`: Display live system processes.
-    - `htop`: Enhanced version of `top`.
-    - `kill`: Terminate a process by PID.
-    - `pkill`: Terminate processes by name.
-    - `nice`/`renice`: Change process priority.
-- **Background and Foreground Processes:**
-    - `&`: Run a command in the background.
-    - `fg`: Bring a background process to the foreground.
-    - `bg`: Resume a stopped background process.
+DevOps engineers use the command line because it works on remote servers, can be scripted, and produces repeatable results.
 
----
+Start by identifying your environment:
 
-### 5. Networking
+```bash
+whoami
+hostname
+uname -a
+cat /etc/os-release
+```
 
-### Basic Networking Commands and Configuration:
+Useful shell habits:
 
-- **Network Configuration:**
-    - `ip addr`, `ip route`: Show interfaces, IP addresses and routes (the modern replacement for `ifconfig`).
-    - `ifconfig`: Older tool, still seen in tutorials; part of the deprecated `net-tools` package.
-    - `ping`: Test network connectivity.
-    - `ss -tulpn`: Show listening ports and the processes using them (the modern replacement for `netstat`).
-    - `dig`, `nslookup`: Query DNS records.
-    - `curl -I <url>`: Check that a web server responds and inspect its HTTP headers.
-- **Network Management:**
-    - `scp`: Secure copy files between hosts.
-    - `ssh`: Securely connect to remote machines.
-    - `ftp`, `sftp`: Transfer files over network.
+- Use **Tab** to complete paths and command names.
+- Use the **Up Arrow** to recall previous commands.
+- Use `history` to inspect recent commands.
+- Use `man COMMAND` or `COMMAND --help` to read help; press `q` to leave a manual page.
+- Use `clear` to clear the terminal display.
 
----
+## 2. Navigate the filesystem
 
-### 6. Package Management
+Linux uses one directory tree beginning at `/`. Your current directory is not necessarily your home directory.
 
-### Introduction to Package Managers:
+| Path | Typical purpose |
+|---|---|
+| `/` | Filesystem root |
+| `/home/USERNAME` | Regular users' home directories |
+| `/etc` | System and service configuration |
+| `/var/log` | Logs |
+| `/var/www` | Common web content location |
+| `/usr` | Installed programs, libraries, and shared data |
+| `/tmp` | Temporary files |
+| `/opt` | Optional third-party software |
+| `/dev` | Device files |
+| `/proc`, `/sys` | Virtual filesystems exposing process and kernel information |
 
-- **Debian-based Systems (e.g., Ubuntu):**
-    - `apt-get`, `apt`: Install, update, and remove packages (e.g., `apt-get update`, `apt-get install package_name`).
-    - `dpkg`: Install, remove, and provide information about .deb packages.
-- **Red Hat-based Systems (e.g., CentOS, Fedora):**
-    - `yum`, `dnf`: Install, update, and remove packages (e.g., `yum install package_name`).
-    - `rpm`: Install, remove, and provide information about .rpm packages.
-- **Common Commands:**
-    - `install`: Install a package.
-    - `update`: Update package lists or upgrade installed packages.
-    - `remove` or `uninstall`: Remove a package.
-    - `search`: Search for a package.
+Try:
 
----
+```bash
+pwd
+ls
+ls -lah
+cd /etc
+cd ..
+cd ~
+```
 
-This detailed content should provide a comprehensive foundation for beginners to understand and start using Linux in a DevOps context. Each section can be supplemented with hands-on exercises and practice.
+Remember: `/` is the filesystem root; `~` is your home directory; `.` means the current directory; `..` means the parent directory.
+
+## 3. Create, inspect, search, and edit files
+
+```bash
+mkdir -p ~/devops-lab/logs
+cd ~/devops-lab
+touch notes.txt
+echo "Linux practice started" > notes.txt
+echo "Second line" >> notes.txt
+cat notes.txt
+less notes.txt
+head -n 5 notes.txt
+tail -n 5 notes.txt
+cp notes.txt notes-backup.txt
+mv notes-backup.txt archive.txt
+```
+
+- `>` replaces a file's contents; `>>` appends.
+- `|` sends one command's output to another command.
+- `grep` searches text; `find` searches for files and directories.
+
+```bash
+grep -n "Linux" notes.txt
+find ~/devops-lab -type f -name "*.txt"
+```
+
+Use `nano filename` for a beginner-friendly editor. In nano, `Ctrl+O` saves and `Ctrl+X` exits.
+
+**Safety:** `rm` deletes files. Check your current directory with `pwd` and the target with `ls` before removing anything. Avoid practising with `rm -rf`, especially with wildcards or system paths.
+
+## 4. Users, groups, and permissions
+
+Linux is a multi-user system. Files have an owner, a group, and permissions for the owner, group, and others.
+
+```bash
+whoami
+id
+groups
+ls -l notes.txt
+```
+
+Example permission string: `-rwxr-xr--`
+
+- First character: file type (`-` regular file, `d` directory).
+- Next three: owner permissions.
+- Next three: group permissions.
+- Last three: permissions for others.
+- `r` = read, `w` = write, `x` = execute.
+
+For numeric permissions, read = 4, write = 2, execute = 1:
+
+| Mode | Owner | Group | Others | Common use |
+|---|---|---|---|---|
+| `755` | rwx | r-x | r-x | Directories and executable files |
+| `644` | rw- | r-- | r-- | Typical non-secret text/config files |
+| `600` | rw- | --- | --- | Private files, such as SSH private keys |
+
+Practise only inside your lab directory:
+
+```bash
+cd ~/devops-lab
+touch deploy.sh
+chmod 600 notes.txt
+chmod 700 deploy.sh
+ls -l
+```
+
+Change ownership with `chown` when needed (usually with `sudo`):
+
+```bash
+sudo chown USER:GROUP filename
+```
+
+Use `sudo` only for commands that need administrative privileges. Do not use `chmod 777` as a shortcut for permission problems. Be especially careful with recursive `chmod -R` and `chown -R`.
+
+## 5. Packages and software installation
+
+Ubuntu uses APT to manage packages.
+
+```bash
+sudo apt update
+apt list --upgradable
+sudo apt install -y nginx
+nginx -v
+sudo apt remove -y nginx
+```
+
+- `apt update` refreshes the local package index; it does not upgrade installed applications.
+- `apt upgrade` upgrades installed packages.
+- `apt install` installs a package and its dependencies.
+- `apt remove` removes a package but normally leaves configuration files.
+- `apt purge` also removes package configuration; use it only when you intend to remove that configuration.
+
+Different Linux distributions use different package managers: for example, DNF on modern Fedora/RHEL-family systems and APT on Debian/Ubuntu.
+
+## 6. Processes and services
+
+A **process** is a running program. A **service** is a program managed by the service manager, commonly systemd on Ubuntu.
+
+Inspect processes:
+
+```bash
+ps aux
+pgrep -a nginx
+top
+```
+
+Manage an Nginx service:
+
+```bash
+sudo systemctl status nginx --no-pager
+sudo systemctl start nginx
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+sudo systemctl is-active nginx
+```
+
+- `start` starts it now; `enable` configures it to start at boot. They are different actions.
+- Check status and logs before restarting a failing service.
+- Prefer a normal `kill PID` (SIGTERM) to request graceful shutdown. Use `kill -9 PID` (SIGKILL) only when a process will not stop normally and you understand the consequences.
+
+## 7. Logs and troubleshooting
+
+Logs are one of the first places to investigate when an application or service fails.
+
+```bash
+journalctl -u nginx --since "1 hour ago"
+journalctl -u nginx -f
+sudo tail -n 50 /var/log/nginx/error.log
+sudo tail -f /var/log/nginx/access.log
+```
+
+Useful investigation sequence:
+
+1. Check whether the service is active: `systemctl status nginx`.
+2. Read recent service logs: `journalctl -u nginx -n 50 --no-pager`.
+3. Check whether the expected port is listening: `sudo ss -tulpn`.
+4. Test locally: `curl -I http://localhost`.
+5. Check disk and memory before making changes: `df -h`, `free -h`.
+
+Do not delete log files just because a disk is full. Identify what is consuming space and use the service's log rotation or a planned cleanup process.
+
+## 8. Networking essentials
+
+| Concept | Command | What to inspect |
+|---|---|---|
+| Interfaces and IP addresses | `ip addr` | Interface names and assigned addresses |
+| Routes and default gateway | `ip route` | Where traffic is sent |
+| Listening sockets | `ss -tulpn` | Services listening on TCP/UDP ports |
+| DNS lookup | `getent hosts example.com`, `dig example.com` | Name resolution |
+| Connectivity | `ping -c 4 1.1.1.1` | Basic IP reachability |
+| HTTP response | `curl -I https://example.com` | HTTP status and headers |
+
+`ip` and `ss` are preferred in modern Linux over older `ifconfig` and `netstat` examples. Some minimal systems may not include `dig`; on Ubuntu it is available in the `dnsutils` package.
+
+A useful troubleshooting distinction:
+- If an IP address is reachable but a hostname is not, investigate DNS.
+- If a service responds on localhost but not from another machine, check its bind address, host firewall, cloud firewall/security group, and routing.
+- A listening port does not guarantee that the application is healthy.
+
+## 9. SSH and secure file transfer
+
+SSH gives you encrypted remote terminal access. Use a key pair and keep the private key on your own device.
+
+```bash
+chmod 400 ~/Downloads/your-key.pem
+ssh -i ~/Downloads/your-key.pem ubuntu@YOUR_VM_PUBLIC_IP
+```
+
+Copy a file from your laptop to the VM with SCP:
+
+```bash
+scp -i ~/Downloads/your-key.pem report.txt ubuntu@YOUR_VM_PUBLIC_IP:~/devops-lab/
+```
+
+For cloud VMs, restrict inbound SSH (TCP 22) to your own IP where possible. Never publish private keys, passwords, access tokens, or cloud credentials. Verify a server's host-key fingerprint through a trusted channel when connecting for the first time.
+
+## 10. Bash scripting fundamentals
+
+A Bash script is a repeatable sequence of shell commands. Create a simple system information script:
+
+```bash
+mkdir -p ~/devops-lab/scripts
+nano ~/devops-lab/scripts/system-report.sh
+```
+
+Add:
+
+```bash
+#!/usr/bin/env bash
+set -u
+
+echo "Host: $(hostname)"
+echo "Date: $(date)"
+echo "Disk usage:"
+df -h /
+echo "Memory:"
+free -h
+```
+
+Run it:
+
+```bash
+chmod +x ~/devops-lab/scripts/system-report.sh
+~/devops-lab/scripts/system-report.sh
+```
+
+Core Bash concepts to practise next:
+
+```bash
+name="bootcamp"
+echo "Hello, $name"
+
+if [ -f /etc/os-release ]; then
+  echo "OS information file exists"
+fi
+
+for item in logs scripts; do
+  echo "Found lab directory: $item"
+done
+```
+
+When scripts become important, add argument validation, clear error messages, logging, and careful handling of failures. Do not assume that `set -e` alone is complete error handling.
+
+## 11. Scheduling tasks with cron
+
+Cron runs commands on a schedule. Edit and inspect your own user's crontab:
+
+```bash
+crontab -e
+crontab -l
+```
+
+A cron entry has five time fields followed by a command:
+
+```text
+* * * * * command
+│ │ │ │ └─ day of week (0–7; Sunday is 0 or 7)
+│ │ │ └─── month (1–12)
+│ │ └───── day of month (1–31)
+│ └─────── hour (0–23)
+└───────── minute (0–59)
+```
+
+Examples:
+
+| Schedule | Expression |
+|---|---|
+| Every 5 minutes | `*/5 * * * *` |
+| Every day at 02:00 | `0 2 * * *` |
+| Every Monday at 09:30 | `30 9 * * 1` |
+
+Cron has a limited environment. Use absolute paths to scripts and commands, and redirect output to a log while testing. Avoid scheduling destructive cleanup commands until you have tested the exact target and retention rule.
+
+## 12. Basic system monitoring
+
+These commands provide a first view of server health:
+
+```bash
+uptime
+free -h
+df -h
+du -sh ~/devops-lab
+top
+ss -s
+```
+
+- `uptime`: uptime and load averages.
+- `free -h`: memory and swap.
+- `df -h`: filesystem capacity.
+- `du -sh PATH`: size of a directory.
+- `top`: live process and resource view.
+- `ss -s`: socket summary.
+
+A high CPU load, low available memory, full disk, or unexpected listening port is a clue to investigate—not automatically proof of the root cause. Later in the bootcamp, connect these operating-system signals to Prometheus, Grafana, and cloud monitoring.
+
+## 13. Mini project — Diagnose a web server
+
+Use your Ubuntu VM and Nginx from the guided lab.
+
+1. Install Nginx and confirm the service is active.
+2. Use `curl -I http://localhost` to test the local response.
+3. Find the listening port with `ss -tulpn`.
+4. Read recent Nginx logs with `journalctl` or the files under `/var/log/nginx/`.
+5. Stop Nginx and observe the result of the curl request.
+6. Start Nginx again and verify the response.
+7. Write a short Bash script that prints hostname, disk usage, and memory.
+8. Explain how you would check whether a remote access problem is caused by DNS, the service, or a firewall.
+
+## Knowledge check
+
+Before moving on, make sure you can explain:
+
+- [ ] The difference between `/`, `~`, `.`, and `..`.
+- [ ] The difference between `>` and `>>`, and what a pipe does.
+- [ ] What `rwx`, `755`, and `644` mean.
+- [ ] Why `sudo` should be used carefully.
+- [ ] The difference between a process and a systemd service.
+- [ ] How to inspect service logs and listening ports.
+- [ ] How to distinguish basic IP connectivity from DNS resolution.
+- [ ] How to connect to a VM securely with SSH.
+- [ ] How to run a Bash script and read a cron schedule.
+- [ ] How to check CPU, memory, and disk usage.
+
+## Recommended references and official documentation
+
+Use these resources when you want to go deeper. Start with the Ubuntu and GNU Bash documentation; the kernel and operating-system references are useful for understanding the bigger picture.
+
+### Beginner-friendly Linux learning
+
+- [Ubuntu Server documentation](https://documentation.ubuntu.com/server/) — practical guidance for administering Ubuntu servers.
+- [The Linux command line — GNU Bash manual](https://www.gnu.org/software/bash/manual/) — the official Bash reference for shell features, variables, conditions, loops, and scripting.
+- [Linux man-pages project](https://www.kernel.org/doc/man-pages/) — reference documentation for Linux commands, system calls, and library functions. Use it when you want to understand exactly what a command or interface does.
+
+### Linux internals and operating systems
+
+- [The Linux Kernel documentation](https://docs.kernel.org/) — official documentation about the Linux kernel, its subsystems, and configuration.
+- [GNU project](https://www.gnu.org/) — background on the GNU tools commonly found in Linux distributions.
+- [FreeBSD Handbook](https://docs.freebsd.org/en/books/handbook/) — a useful comparison with another Unix-like operating system.
+- [Apple Open Source — XNU](https://github.com/apple-oss-distributions/xnu) — source repository for the XNU kernel used by macOS.
+
+### DevOps tools used in this module
+
+- [OpenSSH manual pages](https://www.openssh.com/manual.html) — SSH client, server, key, and configuration references.
+- [systemd documentation](https://www.freedesktop.org/software/systemd/man/latest/) — service management, units, and journal documentation.
+- [Docker: What is a container?](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/) — understand container fundamentals and how containers differ from virtual machines.
+- [Microsoft: WSL documentation](https://learn.microsoft.com/en-us/windows/wsl/) — official guide to running Linux environments on Windows.
+
+**Study tip:** Do not try to read every reference from beginning to end. Use the links as a trusted source when a command, concept, or troubleshooting step is unfamiliar. Practise in your Ubuntu VM before applying commands to a production server.
+
+## Further practice
+
+- [Guided Ubuntu VM Lab](task-1-linux-practice.md)
+- [Linux VM setup and safety guide](VM-LAB-GUIDE.md)
+- [How to submit your solution](../HOW-TO-SUBMIT.md)
+
+**Next step:** Complete the VM lab, submit your evidence in a pull request, and be ready to explain not only which command you used but why you used it.
