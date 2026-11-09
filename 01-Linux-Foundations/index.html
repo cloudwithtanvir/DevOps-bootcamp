@@ -1,63 +1,38 @@
 ---
-layout: module
+layout: default
 title: Linux and Git Foundations
-module_id: "01"
-module_path: 01-Linux-Foundations
-weeks: Weeks 1–2
-status: Linux lesson and VM lab ready · Git lab in progress
-description: Learn the Linux command line through clear explanations, safe command practice, and a real Ubuntu VM troubleshooting lab. Build the foundations for cloud, containers, and automation.
-materials:
-  - label: Linux Foundations for DevOps — lesson notes
-    file: notes.md
-  - label: Guided VM Lab: Linux Fundamentals
-    file: task-1-linux-practice.md
-  - label: VM setup and safety guide
-    file: VM-LAB-GUIDE.md
-interactive_quiz:
-  - question: Which command prints the directory you are currently working in?
-    options: ["ls", "pwd", "cd", "whoami"]
-    answer: pwd
-  - question: Which command displays permissions, owner, and group in a long listing?
-    options: ["ls -l", "chmod", "find", "cat"]
-    answer: ls -l
-  - question: What does the numeric permission mode 755 represent for the owner?
-    options: ["Read only", "Read and write", "Read, write, and execute", "No permissions"]
-    answer: Read, write, and execute
-  - question: Which command shows listening TCP and UDP sockets on a modern Linux system?
-    options: ["ip route", "ss -tulpn", "dig", "ps aux"]
-    answer: ss -tulpn
-  - question: Which command should you use to stop the nginx service managed by systemd?
-    options: ["sudo systemctl stop nginx", "killall nginx", "sudo apt remove nginx", "service nginx install"]
-    answer: sudo systemctl stop nginx
-  - question: What does apt update do?
-    options: ["Upgrades every installed package", "Refreshes the local package index", "Restarts services", "Deletes old packages"]
-    answer: Refreshes the local package index
-  - question: Which command follows new messages from the nginx systemd service?
-    options: ["journalctl -u nginx -f", "df -h", "chmod nginx", "ip route"]
-    answer: journalctl -u nginx -f
-  - question: Which redirection appends output to a file instead of replacing its contents?
-    options: [">", ">>", "|", "<"]
-    answer: ">>"
-interactive_steps:
-  - title: Confirm your current location
-    detail: Print the absolute path of your current working directory.
-    command: pwd
-  - title: Inspect files, including hidden files
-    detail: Show detailed file information in your home directory.
-    command: ls -la ~
-  - title: Create a practice workspace
-    detail: Create a directory and enter it.
-    command: mkdir -p ~/devops-lab && cd ~/devops-lab
-  - title: Create and inspect a log file
-    detail: Write a line, search for it, and inspect the file.
-    command: echo "bootcamp started" > practice.log && grep "bootcamp" practice.log
-  - title: Inspect permissions
-    detail: Create a script file and set owner-only permissions.
-    command: touch deploy.sh && chmod 700 deploy.sh && ls -l deploy.sh
-  - title: Check system resources
-    detail: Inspect filesystem capacity and memory.
-    command: df -h && free -h
-  - title: Inspect network routes
-    detail: Display the VM network interfaces and default route.
-    command: ip addr && ip route
+description: Learn Linux through clear explanations, safe command practice, and a real Ubuntu VM troubleshooting lab.
 ---
+
+<section class="module-hero">
+  <div class="container">
+    <a class="back-link" href="{{ '/' | relative_url }}#curriculum">← All modules</a>
+    <div class="module-kicker"><span>MODULE 01</span><span>Weeks 1–2</span></div>
+    <h1>Linux and Git Foundations</h1>
+    <p class="module-intro">Learn the Linux command line through clear explanations, safe command practice, and a real Ubuntu VM troubleshooting lab. Build the foundations for cloud, containers, and automation.</p>
+    <span class="status-pill">Linux lesson and VM lab ready · Git lab in progress</span>
+  </div>
+</section>
+
+<section class="module-content container">
+  <div class="module-main">
+    <div class="section-label">LEARNING MATERIALS</div>
+    <div class="material-list">
+      <a class="material-row" href="{{ '/01-Linux-Foundations/notes.html' | relative_url }}">
+        <span>Linux Foundations for DevOps — lesson notes</span><span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="material-row" href="{{ '/01-Linux-Foundations/task-1-linux-practice.html' | relative_url }}">
+        <span>Guided VM Lab: Linux Fundamentals</span><span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="material-row" href="{{ '/01-Linux-Foundations/VM-LAB-GUIDE.html' | relative_url }}">
+        <span>VM setup and safety guide</span><span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <a class="source-link" href="{{ '/01-Linux-Foundations/README.html' | relative_url }}">Open the original module overview <span aria-hidden="true">↗</span></a>
+  </div>
+  <aside class="module-aside">
+    <div class="section-label">IN THIS COURSE</div>
+    <p>Each week connects a concept to a hands-on lab. You’ll build on the same sample app as you move through the curriculum.</p>
+    <a href="{{ '/ROADMAP.html' | relative_url }}">View the 12-week roadmap →</a>
+  </aside>
+</section>
