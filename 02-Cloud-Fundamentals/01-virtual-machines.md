@@ -1,102 +1,122 @@
 ---
-title: "Module 3 Virtual Machines"
+title: "Virtual Machines and Virtualization"
 ---
 
-# Module 3 Virtual Machines
+# Virtual Machines and Virtualization
 
-Owner: Tanvir Ahmed
+## Learning objectives
 
-### What is a Server?
+- Explain what a server, virtual machine and hypervisor are.
+- Distinguish Type 1 and Type 2 hypervisors.
+- Describe how CPU, memory, storage and networking are presented to a VM.
+- Explain common VM use cases and operational considerations.
+- Compare virtual machines with containers.
 
-A server is a computer or system that provides resources, data, services, or programs to other computers, known as clients, over a network. There are different types of servers, such as web servers, database servers, application servers, and file servers. Servers are designed to handle and manage network resources efficiently and are often more powerful and robust than typical client computers.
+## 1. What is a server?
 
-### What is a VM?
+A server is a physical or virtual system that provides resources, data or services to clients over a network. Examples include web servers, application servers, database servers and file servers. A server is defined by the role it performs—not simply by its physical size.
 
-A Virtual Machine (VM) is a software-based emulation of a physical computer. It runs an operating system and applications just like a physical computer. VMs are created using virtualization software and can be run on physical hardware (host machine) alongside other VMs. Each VM has its own virtualized hardware, including CPUs, memory, disk storage, and network interfaces.
+## 2. What is virtualization?
 
-### What is a Hypervisor?
+Virtualization abstracts physical computing resources so that multiple isolated virtual environments can share one physical host. A physical host may provide CPU, memory, storage and network capacity to multiple virtual machines. Each VM receives virtual hardware and can run its own guest operating system.
 
-A hypervisor, also known as a virtual machine manager (VMM), is software that creates and manages virtual machines. It allows multiple VMs to run on a single physical host by abstracting the hardware resources and allocating them to the VMs. There are two main types of hypervisors:
+## 3. What is a virtual machine?
 
-1. **Type 1 (Bare-Metal) Hypervisors**: These run directly on the host's hardware and manage guest operating systems, such as VMware ESXi, Microsoft Hyper-V, and Xen.
-2. **Type 2 (Hosted) Hypervisors**: These run on a conventional operating system and then manage guest operating systems, such as VMware Workstation, Oracle VirtualBox, and Parallels Desktop.
+A virtual machine (VM) is a software-defined computer with virtual CPU, memory, storage and network interfaces. It runs a guest operating system and applications as though it were a physical computer.
 
-### Difference Between Physical and Virtual Machines
+- **vCPU:** virtual processor capacity scheduled onto physical CPU resources.
+- **Memory:** RAM allocated or made available to the VM.
+- **Virtual disk:** storage presented to the guest operating system.
+- **Virtual NIC:** network interface connected to a virtual network.
+- **Guest OS:** operating system installed inside the VM.
 
-- **Physical Machines**:
-    - **Definition**: Actual hardware devices.
-    - **Resource Allocation**: Direct and static allocation of resources like CPU, memory, and storage.
-    - **Isolation**: Limited; processes can interfere with each other if not managed properly.
-    - **Flexibility**: Less flexible, as hardware upgrades or changes are needed for scaling.
-    - **Cost**: Higher upfront cost for purchasing and maintaining hardware.
-- **Virtual Machines**:
-    - **Definition**: Software-based emulations of physical computers.
-    - **Resource Allocation**: Dynamic and managed by the hypervisor, allowing for efficient use of resources.
-    - **Isolation**: High; each VM operates independently with its own OS and applications.
-    - **Flexibility**: Highly flexible; easy to create, modify, clone, and migrate.
-    - **Cost**: Lower cost due to shared hardware resources and reduced need for physical infrastructure.
+A VM is isolated from other VMs, but it is not a perfect security boundary. Hypervisor vulnerabilities, misconfiguration and shared infrastructure risks still matter.
 
-### Advantages of Virtual Machines
+## 4. What is a hypervisor?
 
-1. **Efficient Resource Utilization**:
-    - VMs can share the physical resources of a single host, maximizing the use of CPU, memory, and storage.
-2. **Isolation and Security**:
-    - Each VM is isolated from others, reducing the risk of one VM affecting another and improving security.
-3. **Scalability**:
-    - VMs can be easily scaled up or down by adjusting allocated resources or adding more VMs.
-4. **Flexibility and Portability**:
-    - VMs can be moved between different physical machines, allowing for easier maintenance and disaster recovery.
-5. **Cost Savings**:
-    - Reduced need for physical hardware leads to lower capital and operational expenses.
-6. **Environment Consistency**:
-    - VMs provide consistent environments for development, testing, and production, minimizing discrepancies.
-7. **Snapshot and Backup**:
-    - VMs support snapshots and backups, allowing for easy rollback and data recovery.
+A hypervisor, also called a Virtual Machine Monitor (VMM), creates and manages VMs and allocates access to the host's resources.
 
-### Detailed Overview of Virtual Machines
+### Type 1 — bare-metal
 
-### 1. **Creation and Management**
+Runs directly on physical server hardware. Examples include VMware ESXi, Microsoft Hyper-V (commonly deployed as a bare-metal hypervisor) and Xen-based platforms.
 
-Virtual machines are created through a process called virtualization, which is managed by a hypervisor. The hypervisor allocates resources like CPU, memory, and storage to each VM, which operates as if it were running on a physical machine. Users can create multiple VMs on a single physical host, each with its own operating system and applications.
+### Type 2 — hosted
 
-### 2. **Types of Virtual Machines**
+Runs as an application on a conventional host operating system. Examples include Oracle VirtualBox, VMware Workstation and Parallels Desktop.
 
-- **System VMs**: These VMs provide a complete system platform that supports the execution of a complete operating system (e.g., Windows, Linux).
-- **Process VMs**: These VMs run a single application or process, providing an environment that abstracts the underlying hardware (e.g., Java Virtual Machine).
+| Type 1 | Type 2 |
+| --- | --- |
+| Runs on host hardware | Runs on a host operating system |
+| Common in data centers and server virtualization | Common on developer and desktop machines |
+| Directly manages hardware resources | Uses resources through the host OS |
+| Example: ESXi | Example: VirtualBox |
 
-### 3. **Use Cases**
+## 5. Physical machine vs virtual machine
 
-- **Server Consolidation**: Running multiple server instances on a single physical machine to reduce hardware costs.
-- **Development and Testing**: Developers use VMs to create isolated environments for testing software without affecting the main system.
-- **Disaster Recovery**: VMs can be backed up and replicated, making it easier to recover from hardware failures.
-- **Cloud Computing**: Cloud providers offer VMs as a service, allowing users to deploy applications without worrying about underlying hardware.
+| Area | Physical machine | Virtual machine |
+| --- | --- | --- |
+| Hardware | Dedicated physical computer | Virtual hardware backed by a host |
+| Operating system | Installed on physical hardware | Guest OS runs in the VM |
+| Provisioning | May require hardware procurement | Often created from an image or template |
+| Scaling | Hardware upgrade or new server | Adjust VM size or add instances, subject to capacity |
+| Isolation | Physical separation is possible | Logical isolation through virtualization |
+| Cost | Hardware, facilities and maintenance | Compute, storage, licensing and platform costs |
 
-### 4. **Performance Considerations**
+## 6. VM lifecycle
 
-While VMs offer many benefits, there are performance considerations due to the overhead of virtualization. Hypervisors manage this overhead by optimizing resource allocation and using techniques like paravirtualization, which allows the guest OS to be aware of the hypervisor, improving efficiency.
+1. Select an image or operating-system installation source.
+2. Choose CPU, memory, storage and network settings.
+3. Create the VM.
+4. Start it and connect through a console or remote protocol.
+5. Install and configure software; patch and monitor it.
+6. Stop, restart, resize or snapshot it as needed.
+7. Back up important data.
+8. Terminate/delete it when it is no longer required.
 
-### 5. **Future Trends**
+A snapshot is useful for certain recovery and testing scenarios, but it is not automatically a complete backup strategy. Keep independent backups for important data and test restoration.
 
-- **Containerization**: Containers provide an alternative to VMs by offering a lighter-weight form of virtualization, sharing the host OS kernel while isolating applications.
-- **Edge Computing**: VMs are increasingly used in edge computing to provide processing power closer to data sources, reducing latency.
-- **Hybrid Cloud**: Combining on-premises and cloud resources using VMs to provide flexible and scalable computing environments.
+## 7. Common use cases
 
-In summary, virtual machines play a crucial role in modern IT infrastructure by providing flexible, efficient, and cost-effective solutions for resource management, application deployment, and disaster recovery.
+- **Server consolidation:** run several workloads on fewer physical hosts.
+- **Development and testing:** create isolated environments.
+- **Legacy applications:** run software that requires a particular OS.
+- **Disaster recovery:** replicate or restore VM workloads.
+- **Cloud compute:** provision virtual servers on demand.
+- **Training labs:** practise Linux and Windows administration safely.
 
-What are the differences between Virtualization (VMware) and Containerization (Docker)?
+## 8. Performance and operational considerations
 
-The diagram below illustrates the layered architecture of virtualization and containerization.
+Virtualization introduces scheduling and resource-management overhead. Performance also depends on host capacity, storage latency, network design, workload patterns and resource contention. Monitor CPU utilization, memory pressure, disk latency, network throughput and application health.
 
-“Virtualization is a technology that allows you to create multiple simulated environments or dedicated resources from a single, physical hardware system” [1].
+## 9. VM vs container
 
-“Containerization is the packaging together of software code with all its necessary components like libraries, frameworks, and other dependencies so that they are isolated in their own "container" [2].
+A virtual machine virtualizes hardware and normally includes its own guest operating system. A container isolates an application process and its dependencies while sharing the host operating-system kernel.
 
-The major differences are:
+| Virtual machine | Container |
+| --- | --- |
+| Includes a guest OS | Shares host kernel |
+| Usually larger footprint | Usually lighter-weight |
+| OS-level separation between guests | Process and namespace isolation; not a VM-equivalent boundary |
+| Can run a different guest OS supported by the hypervisor | Container must be compatible with host kernel/platform |
+| Common for full OS workloads | Common for packaging and running applications |
 
-🔹 In virtualization, the hypervisor creates an abstraction layer over hardware, so that multiple operating systems can run alongside each other. This technique is considered to be the first generation of cloud computing.
+Containers are not simply "faster VMs"; they solve a different packaging and isolation problem. Both technologies are widely used together—for example, containers running on VMs in a cloud environment.
 
-![https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F14409324-6525-49f9-85b5-ea416d4efffb_2556x1383.jpeg](https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F14409324-6525-49f9-85b5-ea416d4efffb_2556x1383.jpeg)
+## 10. Cloud connection: EC2
 
-🔹Containerization is considered to be a lightweight version of virtualization, which virtualizes the operating system instead of hardware. Without the hypervisor, the containers enjoy faster resource provisioning. All the resources (including code, dependencies) that are needed to run the application or microservice are packaged together, so that the applications can run anywhere.
+Amazon EC2 provides resizable compute capacity as virtual server instances. When launching an instance, you select an Amazon Machine Image (AMI), instance type, network settings, storage and access configuration.
 
-Question: how much performance differences have you observed in production between virtualization, containerization, and bare-metal?
+Continue with [the AWS EC2 guided lab](02-aws-ec2-lab.md).
+
+## Discussion
+
+1. When would you choose a VM instead of a container?
+2. What risks remain even when workloads run in separate VMs?
+3. Why is a snapshot not a substitute for tested backups?
+4. What metrics would you monitor on a production VM?
+
+## Further reading
+
+- [AWS EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
+- [Microsoft: Hyper-V overview](https://learn.microsoft.com/windows-server/virtualization/hyper-v/hyper-v-technology-overview)
+- [Docker: What is a container?](https://www.docker.com/resources/what-container/)
